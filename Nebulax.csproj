@@ -58,7 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="scripts\nodes\BlackHole.cs" />
     <Compile Include="scripts\nodes\Main.cs" />
+    <Compile Include="scripts\nodes\ShootingStar.cs" />
+    <Compile Include="scripts\nodes\Trail.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
