@@ -3,8 +3,11 @@ using System;
 
 public class ShootingStar : KinematicBody2D
 {
-    public const float MAX_SPEED = 500;
-    public const float SEEK_FORCE = 0.1F;
+    [Export]
+    private float _maxSpeed = 100;
+    [Export]
+    private float _seekForce = 0.5F;
+
     public Vector2 PositionToFollow;
 
     private Vector2 _velocity;
@@ -34,8 +37,8 @@ public class ShootingStar : KinematicBody2D
 
     private Vector2 _Seek(Vector2 target)
     {
-        var desired = (target - Position).Normalized() * MAX_SPEED;
+        var desired = (target - Position).Normalized() * _maxSpeed;
         var steer = desired - _velocity;
-        return steer * SEEK_FORCE;
+        return steer * _seekForce;
     }
 }

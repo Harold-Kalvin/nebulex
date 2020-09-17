@@ -1,15 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/Trail.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/nodes/ShootingStar.cs" type="Script" id=2]
+[ext_resource path="res://scenes/Camera.tscn" type="PackedScene" id=3]
 
 [node name="ShootingStar" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
-[node name="Camera" type="Camera2D" parent="."]
-current = true
-
 [node name="Trail" parent="." instance=ExtResource( 1 )]
 _targetPath = NodePath("..")
 _isEmitting = true
-_maxPoints = 20.0
+
+[node name="Camera" parent="." instance=ExtResource( 3 )]
+current = true

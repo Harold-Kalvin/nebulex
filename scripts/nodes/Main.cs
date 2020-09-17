@@ -5,13 +5,10 @@ public class Main : Node2D
 {   
     public PackedScene blackHoleScene = GD.Load<PackedScene>("res://scenes/BlackHole.tscn");
     
-    private Vector2 _screenSize;
     private ShootingStar _shootingStar;
 
     public override void _Ready()
     {
-        _screenSize = GetViewport().GetVisibleRect().Size;
-
         // set shooting star position
         _shootingStar = (ShootingStar)GetNode("ShootingStar");
     }
@@ -21,13 +18,10 @@ public class Main : Node2D
         if (inputEvent is InputEventScreenTouch touchEvent)
         {
             if (touchEvent.Pressed)
-            {   
-                var camera = (Camera2D)_shootingStar.GetNode("Camera");
-                var defaultPos = new Vector2(_screenSize.x / 2, (_screenSize.y / 2) + 250);
-                var realPosition = (touchEvent.Position - defaultPos) + camera.GlobalPosition;
-
-                AddBlackHole(realPosition);
-                _shootingStar.PositionToFollow = realPosition;
+            {
+                var globalMousePos = GetGlobalMousePosition();
+                AddBlackHole(globalMousePos);
+                _shootingStar.PositionToFollow = globalMousePos;
             }
         }
     }

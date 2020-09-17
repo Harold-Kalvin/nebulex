@@ -9,7 +9,7 @@ public class Trail : Line2D
     [Export]
     private float _resolution = 5.0F;
     [Export]
-    private float _maxPoints = 100;
+    private float _maxPoints = 20;
 
     public bool IsEmitting
     {
