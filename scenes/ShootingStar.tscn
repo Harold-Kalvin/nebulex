@@ -7,6 +7,7 @@
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="ShootingStar" type="Polygon2D"]
+z_index = 100
 script = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -15,6 +16,7 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Trail" parent="." instance=ExtResource( 1 )]
+z_index = 100
 _targetPath = NodePath("..")
 _isEmitting = true
 

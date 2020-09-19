@@ -4,4 +4,5 @@
 
 [node name="BlackHole" type="Polygon2D"]
 modulate = Color( 0, 0, 0, 1 )
+z_index = 50
 script = ExtResource( 1 )
