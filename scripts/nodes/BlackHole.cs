@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class BlackHole : KinematicBody2D
+public class BlackHole : Polygon2D
 {
     public override void _Ready()
     {
