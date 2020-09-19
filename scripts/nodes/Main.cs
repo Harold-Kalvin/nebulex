@@ -31,7 +31,9 @@ public class Main : Node2D
         // remove bodies that are not visible anymore
         foreach (Node2D body in GetTree().GetNodesInGroup("bodies"))
         {
-            if (body.GetGlobalTransformWithCanvas()[2].y > GetViewport().GetVisibleRect().Size.y)
+            var viewportHeight = GetViewport().GetVisibleRect().Size.y;
+            var bodyPosition = body.GetGlobalTransformWithCanvas()[2].y;
+            if (bodyPosition > viewportHeight * 2)
             {
                 body.QueueFree();
             }

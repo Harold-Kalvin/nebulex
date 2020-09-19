@@ -61,6 +61,7 @@
     <Compile Include="scripts\nodes\BlackHole.cs" />
     <Compile Include="scripts\nodes\Camera.cs" />
     <Compile Include="scripts\nodes\Main.cs" />
+    <Compile Include="scripts\nodes\Planet.cs" />
     <Compile Include="scripts\nodes\ShootingStar.cs" />
     <Compile Include="scripts\nodes\Trail.cs" />
     <Compile Include="scripts\helpers\Num.cs" />

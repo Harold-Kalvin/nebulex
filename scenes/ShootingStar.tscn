@@ -1,11 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/Trail.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/nodes/ShootingStar.cs" type="Script" id=2]
 [ext_resource path="res://scenes/Camera.tscn" type="PackedScene" id=3]
 
-[node name="ShootingStar" type="KinematicBody2D"]
+[sub_resource type="CircleShape2D" id=1]
+
+[node name="ShootingStar" type="Polygon2D"]
 script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
 
 [node name="Trail" parent="." instance=ExtResource( 1 )]
 _targetPath = NodePath("..")
