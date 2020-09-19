@@ -5,7 +5,7 @@ public class BlackHole : KinematicBody2D
 {
     public override void _Ready()
     {
-        AddToGroup("blackHole");
+        AddToGroup("bodies");
     }
 
     public override void _Draw()

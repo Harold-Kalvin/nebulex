@@ -4,7 +4,7 @@ using System;
 public class ShootingStar : KinematicBody2D
 {
     [Export]
-    private float _maxSpeed = 100;
+    private float _maxSpeed = 60;
     [Export]
     private float _seekForce = 0.5F;
 
@@ -23,9 +23,7 @@ public class ShootingStar : KinematicBody2D
         {
             var acceleration = _Seek(PositionToFollow);
             _velocity += acceleration * delta;
-            
-            // shooting star should only move horizontally
-            //_velocity = new Vector2(_velocity.x, 0);
+            _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_maxSpeed / 3); // keep moving forward
             var _collision = MoveAndCollide(_velocity);
         }
     }

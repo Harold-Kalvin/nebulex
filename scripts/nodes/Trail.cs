@@ -1,4 +1,6 @@
 using Godot;
+using System.Collections.Generic;
+
 
 public class Trail : Line2D
 {
@@ -9,7 +11,9 @@ public class Trail : Line2D
     [Export]
     private float _resolution = 5.0F;
     [Export]
-    private float _maxPoints = 20;
+    private float _lifetime = 0.5F;
+    [Export]
+    private float _maxPoints = 15;
 
     public bool IsEmitting
     {
@@ -17,7 +21,9 @@ public class Trail : Line2D
     }
     public Node2D Target;
 
+    private List<float> _pointsCreationTime = new List<float>();
     private Vector2 _lastPoint;
+    private float _clock = 0.0F;
     private float _offset = 0.0F;
 
     public override void _Ready()
@@ -39,6 +45,9 @@ public class Trail : Line2D
 
     public override void _Process(float delta)
     {
+        _clock += delta;
+        RemoveOlder();
+
         if (!_isEmitting)
         {
             return;
@@ -48,13 +57,14 @@ public class Trail : Line2D
         float distance = _lastPoint.DistanceTo(desiredPoint);
         if (distance > _resolution)
         {
-            AddTimePoint(desiredPoint);
+            AddTimePoint(desiredPoint, _clock);
         } 
     }
 
-    public void AddTimePoint(Vector2 point)
+    public void AddTimePoint(Vector2 point, float time)
     {
         AddPoint(point + CalculateOffset());
+        _pointsCreationTime.Add(time);
         _lastPoint = point;
         if (GetPointCount() > _maxPoints)
         {
@@ -72,6 +82,24 @@ public class Trail : Line2D
         if (GetPointCount() > 1)
         {
             RemovePoint(0);
+        }
+        _pointsCreationTime.RemoveAt(0);
+    }
+
+    public void RemoveOlder()
+    {
+        for (int i = 0; i < _pointsCreationTime.Count; i++)
+        {
+            var creationTime = _pointsCreationTime[i];
+            var delta = _clock - creationTime;
+            if (delta > _lifetime)
+            {
+                RemoveFirstPoint();
+            }
+            else
+            {
+                break;
+            }
         }
     }
 
@@ -91,6 +119,7 @@ public class Trail : Line2D
         if (_isEmitting)
         {
             ClearPoints();
+            _pointsCreationTime.Clear();
             _lastPoint = ToLocal(Target.GlobalPosition) + CalculateOffset();
         }
     }

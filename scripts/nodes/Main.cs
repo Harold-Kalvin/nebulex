@@ -26,14 +26,20 @@ public class Main : Node2D
         }
     }
 
+    public override void _Process(float delta)
+    {
+        // remove bodies that are not visible anymore
+        foreach (Node2D body in GetTree().GetNodesInGroup("bodies"))
+        {
+            if (body.GetGlobalTransformWithCanvas()[2].y > GetViewport().GetVisibleRect().Size.y)
+            {
+                body.QueueFree();
+            }
+        }
+    }
+
     public void AddBlackHole(Vector2 pos)
     {
-        // free each existing black holes first
-        foreach (BlackHole existing in GetTree().GetNodesInGroup("blackHole"))
-        {
-            existing.QueueFree();
-        }
-        
         // create the new black hole
         var blackHole = (BlackHole)blackHoleScene.Instance();
         blackHole.Position = pos;
