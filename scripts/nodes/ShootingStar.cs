@@ -23,6 +23,9 @@ public class ShootingStar : Polygon2D
 
         // connecting collision signal
         GetNode<Area2D>("Area2D").Connect("area_entered", this, "_OnObstacleEntered");
+
+        // init position to follow
+        PositionToFollow.y = -350;
     }
 
     public override void _Draw()
@@ -32,13 +35,10 @@ public class ShootingStar : Polygon2D
 
     public override void _Process(float delta)
     {
-        if (PositionToFollow != new Vector2(0, 0))
-        {
-            var acceleration = _Seek(PositionToFollow);
-            _velocity += acceleration * delta;
-            _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_maxSpeed / 3); // keep moving forward
-            Translate(_velocity);
-        }
+        var acceleration = _Seek(PositionToFollow);
+        _velocity += acceleration * delta;
+        _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_maxSpeed / 3); // keep moving forward
+        Translate(_velocity);
     }
 
     private Vector2 _Seek(Vector2 target)
