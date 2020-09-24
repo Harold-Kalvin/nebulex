@@ -12,6 +12,7 @@ public class ShootingStar : Polygon2D
     public Vector2 PositionToFollow;
 
     private Vector2 _velocity;
+    private float _minSpeed;
 
     public override void _Ready()
     {
@@ -26,6 +27,9 @@ public class ShootingStar : Polygon2D
 
         // init position to follow
         PositionToFollow.y = -350;
+
+        // init min speed
+        _minSpeed = _maxSpeed / 3;
     }
 
     public override void _Draw()
@@ -37,8 +41,26 @@ public class ShootingStar : Polygon2D
     {
         var acceleration = _Seek(PositionToFollow);
         _velocity += acceleration * delta;
-        _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_maxSpeed / 3); // keep moving forward
+        // keep moving forward
+        _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_minSpeed);
         Translate(_velocity);
+    }
+
+    public void HideWithChildren()
+    {
+        Hide();
+        GetNode<Line2D>("Trail").Hide();
+    }
+
+    public void ShowWithChildren()
+    {
+        Show();
+        GetNode<Line2D>("Trail").Show();
+    }
+
+    public void SetCameraCurrent()
+    {
+        GetNode<Camera2D>("Camera").Current = true;
     }
 
     private Vector2 _Seek(Vector2 target)

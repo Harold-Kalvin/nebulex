@@ -21,4 +21,3 @@ _targetPath = NodePath("..")
 _isEmitting = true
 
 [node name="Camera" parent="." instance=ExtResource( 3 )]
-current = true

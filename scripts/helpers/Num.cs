@@ -6,17 +6,16 @@ public static class Num
     /// Clamping a value to be sure it lies between two values
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="aValue"></param>
-    /// <param name="aMax"></param>
-    /// <param name="aMin"></param>
-    /// <returns></returns>
-    public static T Clamp<T>(T aValue, T aMin, T aMax) where T : IComparable<T>
+    /// <param name="value"></param>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public static T Clamp<T>(T value, T min, T max) where T : IComparable<T>
     {
-        var _Result = aValue;
-        if (aValue.CompareTo(aMax) > 0)
-            _Result = aMax;
-        else if (aValue.CompareTo(aMin) < 0)
-            _Result = aMin;
+        var _Result = value;
+        if (value.CompareTo(max) > 0)
+            _Result = max;
+        else if (value.CompareTo(min) < 0)
+            _Result = min;
         return _Result;
     }
 }
