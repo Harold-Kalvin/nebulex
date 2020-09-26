@@ -6,7 +6,7 @@ public class ShootingStar : Polygon2D
     [Export]
     private float _maxSpeed = 60;
     [Export]
-    private float _seekForce = 0.5F;
+    private float _seekForce = 1.5F;
 
     public float Radius;
     public Vector2 PositionToFollow;
