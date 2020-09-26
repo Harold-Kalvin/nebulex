@@ -4,7 +4,6 @@ using System;
 public class Main : Node2D
 {   
     private ShootingStars _shootingStars; 
-    private PackedScene _blackHoleScene = GD.Load<PackedScene>("res://scenes/BlackHole.tscn");
 
     public override void _Ready()
     {
@@ -18,7 +17,6 @@ public class Main : Node2D
             if (touchEvent.Pressed)
             {
                 var globalMousePos = GetGlobalMousePosition();
-                AddBlackHole(globalMousePos);
                 _shootingStars.SetFollowPoint(globalMousePos);
             }
         }
@@ -36,13 +34,5 @@ public class Main : Node2D
                 body.QueueFree();
             }
         }
-    }
-
-    public void AddBlackHole(Vector2 pos)
-    {
-        // create the new black hole
-        var blackHole = (BlackHole)_blackHoleScene.Instance();
-        blackHole.Position = pos;
-        AddChild(blackHole);
     }
 }
