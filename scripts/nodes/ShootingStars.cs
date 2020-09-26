@@ -77,13 +77,13 @@ public class ShootingStars : Node2D
         }
     }
 
-    public void SetFollowPoint(Vector2 followPoint)
+    public void Sprint()
     {
         var leftCloneOffset = _leftClone.Position - ShootingStar.Position;
         var rightCloneOffset = _rightClone.Position - ShootingStar.Position;
-        ShootingStar.PositionToFollow = followPoint;
-        _leftClone.PositionToFollow = followPoint + leftCloneOffset;
-        _rightClone.PositionToFollow = followPoint + rightCloneOffset;
+        ShootingStar.PositionToFollow = new Vector2(ShootingStar.Position.x, ShootingStar.Position.y - _screenSize.x * 1.5f);
+        _leftClone.PositionToFollow = ShootingStar.PositionToFollow + leftCloneOffset;
+        _rightClone.PositionToFollow = ShootingStar.PositionToFollow + rightCloneOffset;
     }
 
     private ShootingStar _CloneShootingStar(Vector2 offsetPosition)

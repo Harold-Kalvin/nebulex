@@ -16,8 +16,7 @@ public class Main : Node2D
         {
             if (touchEvent.Pressed)
             {
-                var globalMousePos = GetGlobalMousePosition();
-                _shootingStars.SetFollowPoint(globalMousePos);
+                _shootingStars.Sprint();
             }
         }
     }
