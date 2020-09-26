@@ -3,11 +3,14 @@ using System;
 
 public class Main : Node2D
 {   
-    private ShootingStars _shootingStars; 
+    private ShootingStars _shootingStars;
+    private SwipeDetector _swipeDetector;
 
     public override void _Ready()
     {
         _shootingStars = (ShootingStars)GetNode("ShootingStars");
+        _swipeDetector = (SwipeDetector)GetNode("SwipeDetector");
+        _swipeDetector.Connect("Swiped", this, nameof(_OnSwiped));
     }
 
     public override void _Input(InputEvent inputEvent)
@@ -33,5 +36,10 @@ public class Main : Node2D
                 body.QueueFree();
             }
         }
+    }
+
+    private void _OnSwiped(SwipeDirection direction)
+    {
+        GD.Print($"swiped {direction}");
     }
 }
