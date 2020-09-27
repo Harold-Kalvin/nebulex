@@ -4,24 +4,16 @@ using System;
 public class Main : Node2D
 {   
     private ShootingStars _shootingStars;
+    private ClickDetector _clickDetector;
     private SwipeDetector _swipeDetector;
 
     public override void _Ready()
     {
         _shootingStars = (ShootingStars)GetNode("ShootingStars");
+        _clickDetector = (ClickDetector)GetNode("ClickDetector");
         _swipeDetector = (SwipeDetector)GetNode("SwipeDetector");
-        _swipeDetector.Connect("Swiped", this, nameof(_OnSwiped));
-    }
-
-    public override void _Input(InputEvent inputEvent)
-    {
-        if (inputEvent is InputEventScreenTouch touchEvent)
-        {
-            if (touchEvent.Pressed)
-            {
-                _shootingStars.Sprint();
-            }
-        }
+        _clickDetector.Connect("Clicked", this, nameof(_OnClick));
+        _swipeDetector.Connect("Swiped", this, nameof(_OnSwipe));
     }
 
     public override void _Process(float delta)
@@ -38,8 +30,20 @@ public class Main : Node2D
         }
     }
 
-    private void _OnSwiped(SwipeDirection direction)
+    private void _OnClick()
     {
-        GD.Print($"swiped {direction}");
+        _shootingStars.Sprint();
+    }
+
+    private void _OnSwipe(SwipeDirection direction)
+    {
+        if (direction == SwipeDirection.Left)
+        {
+            _shootingStars.MoveLeft();
+        }
+        else if (direction == SwipeDirection.Right)
+        {
+            _shootingStars.MoveRight();
+        }
     }
 }

@@ -15,7 +15,7 @@ public class ShootingStar : Polygon2D
     private float _oscillationAngularVelocity = 0.05f;
 
     public float Radius;
-    public Vector2 PositionToFollow;
+    public Vector2 Target;
 
     private Vector2 _velocity;
     private float _minSpeed;
@@ -31,8 +31,8 @@ public class ShootingStar : Polygon2D
         // connecting collision signal
         GetNode<Area2D>("Area2D").Connect("area_entered", this, "_OnObstacleEntered");
 
-        // init position to follow
-        PositionToFollow.y = -350;
+        // init target position
+        Target.y = -350;
 
         // init min speed
         _minSpeed = _maxSpeed / 3;
@@ -45,10 +45,10 @@ public class ShootingStar : Polygon2D
 
     public override void _Process(float delta)
     {
-        var acceleration = _Seek(PositionToFollow);
+        var acceleration = _Seek();
         _velocity += acceleration * delta;
         _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_minSpeed); // keep moving forward
-        _Oscillate(); // add some horizontal oscillation
+        //_Oscillate(); // add some horizontal oscillation
         Translate(_velocity);
     }
 
@@ -69,9 +69,9 @@ public class ShootingStar : Polygon2D
         GetNode<Camera2D>("Camera").Current = true;
     }
 
-    private Vector2 _Seek(Vector2 target)
+    private Vector2 _Seek()
     {
-        var desired = (target - Position).Normalized() * _maxSpeed;
+        var desired = (Target - Position).Normalized() * _maxSpeed;
         var steer = desired - _velocity;
         return steer * _seekForce;
     }

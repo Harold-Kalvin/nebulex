@@ -79,18 +79,37 @@ public class ShootingStars : Node2D
 
     public void Sprint()
     {
+        var farForward = ShootingStar.Position.y - _screenSize.x * 1.5f;
+        _SetTarget(new Vector2(ShootingStar.Position.x, farForward));
+    }
+
+    public void MoveLeft()
+    {
+        var farLeft = ShootingStar.Position.x - _screenSize.x * 0.5f;
+        _SetTarget(new Vector2(farLeft, ShootingStar.Position.y));
+    }
+
+    public void MoveRight()
+    {
+        var farRight = ShootingStar.Position.x + _screenSize.x * 0.5f;
+        _SetTarget(new Vector2(farRight, ShootingStar.Position.y));
+    }
+
+    private void _SetTarget(Vector2 target)
+    {
+        ShootingStar.Target = target;
+        // set clones' target
         var leftCloneOffset = _leftClone.Position - ShootingStar.Position;
         var rightCloneOffset = _rightClone.Position - ShootingStar.Position;
-        ShootingStar.PositionToFollow = new Vector2(ShootingStar.Position.x, ShootingStar.Position.y - _screenSize.x * 1.5f);
-        _leftClone.PositionToFollow = ShootingStar.PositionToFollow + leftCloneOffset;
-        _rightClone.PositionToFollow = ShootingStar.PositionToFollow + rightCloneOffset;
+        _leftClone.Target = ShootingStar.Target + leftCloneOffset;
+        _rightClone.Target = ShootingStar.Target + rightCloneOffset;
     }
 
     private ShootingStar _CloneShootingStar(Vector2 offsetPosition)
     {
         var clone = (ShootingStar)_shootingStarScene.Instance();
         clone.Position = ShootingStar.Position + offsetPosition;
-        clone.PositionToFollow = ShootingStar.PositionToFollow + offsetPosition;
+        clone.Target = ShootingStar.Target + offsetPosition;
         return clone;
     }
 
@@ -125,7 +144,7 @@ public class ShootingStars : Node2D
             _shootingStars[Role.LeftClone] = currentTemp;
             _shootingStars[Role.RightClone] = leftTemp;
             _rightClone.Position = new Vector2(_rightClone.Position.x + _screenSize.x * 3, _rightClone.Position.y);
-            _rightClone.PositionToFollow = new Vector2(_rightClone.PositionToFollow.x + _screenSize.x * 3, _rightClone.PositionToFollow.y);
+            _rightClone.Target = new Vector2(_rightClone.Target.x + _screenSize.x * 3, _rightClone.Target.y);
         }
         else if (exitSide == Edge.Right)
         {
@@ -134,7 +153,7 @@ public class ShootingStars : Node2D
             _shootingStars[Role.RightClone] = currentTemp;
             _shootingStars[Role.LeftClone] = rightTemp;
             _leftClone.Position = new Vector2(_leftClone.Position.x - _screenSize.x * 3, _leftClone.Position.y);
-            _leftClone.PositionToFollow = new Vector2(_leftClone.PositionToFollow.x - _screenSize.x * 3, _leftClone.PositionToFollow.y);
+            _leftClone.Target = new Vector2(_leftClone.Target.x - _screenSize.x * 3, _leftClone.Target.y);
         }
         ShootingStar.SetCameraCurrent();
     }
