@@ -14,3 +14,7 @@ script = ExtResource( 1 )
 
 [node name="ShootingStars" type="Node2D" parent="."]
 script = ExtResource( 2 )
+
+[node name="IdleTimer" type="Timer" parent="ShootingStars"]
+wait_time = 0.75
+one_shot = true

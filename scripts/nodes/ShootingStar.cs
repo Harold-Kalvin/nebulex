@@ -1,6 +1,12 @@
 using Godot;
 using System;
 
+public enum Direction
+{
+    Left,
+    Right,
+}
+
 public class ShootingStar : Polygon2D
 {
     [Export]
@@ -16,9 +22,22 @@ public class ShootingStar : Polygon2D
 
     public float Radius;
     public Vector2 Target;
+    public Direction LastDirection;
+    public bool CanBeIdle {
+        get => _canBeIdle;
+        set {
+            _canBeIdle = value;
+            if (!_canBeIdle)
+            {
+                _isIdle = false;
+            }
+        }
+    }
 
     private Vector2 _velocity;
     private float _minSpeed;
+    private bool _canBeIdle = true;
+    private bool _isIdle = true;
 
     public override void _Ready()
     {
@@ -45,10 +64,32 @@ public class ShootingStar : Polygon2D
 
     public override void _Process(float delta)
     {
-        var acceleration = _Seek();
-        _velocity += acceleration * delta;
-        _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_minSpeed); // keep moving forward
-        //_Oscillate(); // add some horizontal oscillation
+        // move (on sides)
+        _Seek(delta);
+
+        // keep moving forward
+        _velocity.y = Num.Clamp(_velocity.y, -_maxSpeed, -_minSpeed);
+        
+        // add some horizontal oscillation if needed
+        if (!_isIdle)
+        {
+            if (CanBeIdle)
+            {
+                var comingBackFromLeft = LastDirection == Direction.Left && _velocity.x > 0;
+                var comingBackFromRight = LastDirection == Direction.Right && _velocity.x < 0;
+                if (comingBackFromLeft || comingBackFromRight)
+                {
+                    _isIdle = true;
+                    _oscillationAmplitude = comingBackFromLeft ? Mathf.Abs(_oscillationAmplitude) : -Mathf.Abs(_oscillationAmplitude);
+                    _oscillationAngle = 0;
+                }
+            }
+        }
+        else
+        {
+            _Oscillate();
+        }
+        
         Translate(_velocity);
     }
 
@@ -69,17 +110,17 @@ public class ShootingStar : Polygon2D
         GetNode<Camera2D>("Camera").Current = true;
     }
 
-    private Vector2 _Seek()
+    private void _Seek(float delta)
     {
         var desired = (Target - Position).Normalized() * _maxSpeed;
         var steer = desired - _velocity;
-        return steer * _seekForce;
+        var acceleration = steer * _seekForce;
+        _velocity += acceleration * delta;
     }
 
     private void _Oscillate()
     {
         var x = _oscillationAmplitude * Mathf.Cos(_oscillationAngle);
-        var target = new Vector2(x, 0);
         _oscillationAngle += _oscillationAngularVelocity;
         _velocity.x = x;
     }
