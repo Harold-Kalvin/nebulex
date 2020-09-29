@@ -15,6 +15,7 @@ public class SwipeDetector : Node2D
     public delegate void Swiped(SwipeDirection direction);
 
     private float _maxDiagonalSlope = 1.35f;
+    private float _minSwipeLength = 20;
     private Vector2 _swipeStartPosition;
     private Timer _timer;
 
@@ -31,6 +32,7 @@ public class SwipeDetector : Node2D
             {
                 _StartDetection(touchEvent.Position);
             }
+            // on release
             else if (!_timer.IsStopped() && touchEvent.Position != _swipeStartPosition)
             {
                 _EndDetection(touchEvent.Position);
@@ -48,6 +50,12 @@ public class SwipeDetector : Node2D
     {
         _timer.Stop();
         var direction = (position - _swipeStartPosition).Normalized();
+        
+        // swipe must have a minimum length
+        if (position.DistanceTo(_swipeStartPosition) <= _minSwipeLength)
+        {
+            return;
+        }
         
         // diagonal swipe is invalid
         if (Mathf.Abs(direction.x) + Mathf.Abs(direction.y) >= _maxDiagonalSlope)
