@@ -21,7 +21,7 @@ public class ShootingStar : Polygon2D
     private float _oscillationAngularVelocity = 0.05f;
 
     public float Radius;
-    public Vector2 Target;
+    public Vector2 Target = new Vector2(0, -1);
     public Direction LastDirection;
     public bool CanBeIdle {
         get => _canBeIdle;
@@ -49,9 +49,6 @@ public class ShootingStar : Polygon2D
 
         // connecting collision signal
         GetNode<Area2D>("Area2D").Connect("area_entered", this, "_OnObstacleEntered");
-
-        // init target position
-        Target.y = -350;
 
         // init min speed
         _minSpeed = _maxSpeed / 3;
