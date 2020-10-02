@@ -13,7 +13,7 @@ public class Trail : Line2D
     [Export]
     private float _lifetime = 0.5F;
     [Export]
-    private float _maxPoints = 10;
+    private float _maxPoints = 15;
 
     public bool IsEmitting
     {
