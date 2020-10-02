@@ -86,14 +86,14 @@ public class ShootingStars : Node2D
 
     public void Sprint()
     {
-        var farForward = ShootingStar.Position.y - _screenSize.x * 1.5f;
+        var farForward = ShootingStar.Position.y - _screenSize.x * 0.5f;
         _SetTarget(new Vector2(ShootingStar.Position.x, farForward));
         _SetCanBeIdle(true);
     }
 
     public void MoveLeft()
     {
-        var farLeft = ShootingStar.Position.x - _screenSize.x * 0.5f;
+        var farLeft = ShootingStar.Position.x - _screenSize.x * 0.25f;
         _SetTarget(new Vector2(farLeft, ShootingStar.Position.y));
         _SetDirection(Direction.Left);
         _SetCanBeIdle(false);
@@ -102,7 +102,7 @@ public class ShootingStars : Node2D
 
     public void MoveRight()
     {
-        var farRight = ShootingStar.Position.x + _screenSize.x * 0.5f;
+        var farRight = ShootingStar.Position.x + _screenSize.x * 0.25f;
         _SetTarget(new Vector2(farRight, ShootingStar.Position.y));
         _SetDirection(Direction.Right);
         _SetCanBeIdle(false);

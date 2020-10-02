@@ -10,9 +10,9 @@ public enum Direction
 public class ShootingStar : Polygon2D
 {
     [Export]
-    private float _maxSpeed = 60;
+    private float _maxSpeed = 40;
     [Export]
-    private float _seekForce = 1.5F;
+    private float _seekForce = 2.5F;
     [Export]
     private float _oscillationAmplitude = 0.5f;
     [Export]
