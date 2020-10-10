@@ -10,12 +10,15 @@ public class Planets : Node2D
     // planet size
     private float _bigPlanetMinSizeScreenX = 0.25f;
     private float _bigPlanetMaxSizeScreenX = 0.35f;
-    private float _smallPlanetMinSizeScreenX = 0.1f;
-    private float _smallPlanetMaxSizeScreenX = 0.15f;
-    private float _smallPlanetApparitionRate = 0.2f;
+    private float _smallPlanetMinSizeScreenX = 0.05f;
+    private float _smallPlanetMaxSizeScreenX = 0.1f;
+    // small planet apparition rate
+    private float _smallPlanetApparitionRate = 0.4f;
     // planet position
     private float _bigPlanetMinVerticalDistanceScreenX = 0.65f;
     private float _bigPlanetMaxVerticalDistanceScreenX = 0.75f;
+    private float _smallPlanetMinDistanceBigPlanetRadius = 2.3f;
+    private float _smallPlanetMaxDistanceBigPlanetRadius = 3f;
 
     public override void _Ready()
     {
@@ -28,7 +31,7 @@ public class Planets : Node2D
     {
         if (_planets.Count == 0)
         {
-            _GenerateBigPlanet();
+            _GeneratePlanets();
         }
         else
         {
@@ -37,12 +40,11 @@ public class Planets : Node2D
             Planet lastPlanet = _planets[_planets.Count - 1];
             if (lastPlanet.GetGlobalTransformWithCanvas()[2].y > -_screenSize.y / 2)
             {
-                _GenerateBigPlanet();
+                _GeneratePlanets();
             }
         }
-        GD.Print(_planets.Count);
     }
-    
+
     public void Remove(Planet planet)
     {
         if (_planets.Contains(planet)) {
@@ -50,13 +52,25 @@ public class Planets : Node2D
         }
     }
 
-    private void _GenerateBigPlanet()
+    private void _GeneratePlanets()
+    {
+        Planet bigPlanet = _GenerateBigPlanet();
+        
+        // randomize small planets apparition
+        if ((float)GD.RandRange(0, 1) <= _smallPlanetApparitionRate)
+        {
+            _GenerateSmallPlanet(bigPlanet);
+        }
+    }
+
+    private Planet _GenerateBigPlanet()
     {
         Planet planet = (Planet)_planetScene.Instance();
         planet.Radius = _GeneratePlanetRadius(PlanetType.Big);
         planet.Position = _planets.Count == 0 ? _GenerateFirstBigPlanetPosition(planet.Radius) : _GenerateBigPlanetPosition(planet.Radius);
         _planets.Add(planet);
         AddChild(planet);
+        return planet;
     }
 
     private Vector2 _GenerateFirstBigPlanetPosition(float planetRadius)
@@ -96,5 +110,42 @@ public class Planets : Node2D
             (screenSize * _smallPlanetMinSizeScreenX) / 2,
             (screenSize * _smallPlanetMaxSizeScreenX) / 2
         );
+    }
+
+    private Planet _GenerateSmallPlanet(Planet associatedBigPlanet)
+    {
+        Planet planet = (Planet)_planetScene.Instance();
+        planet.Radius = _GeneratePlanetRadius(PlanetType.Small);
+        planet.Position = _GenerateSmallPlanetPosition(associatedBigPlanet, planet.Radius);
+        AddChild(planet);
+        return planet;
+    }
+
+    private Vector2 _GenerateSmallPlanetPosition(Planet associatedBigPlanet, float smallPlanetRadius)
+    {
+        Vector2 origin = associatedBigPlanet.Position;
+        Vector2 position = new Vector2();
+        Vector2 screenPosition = new Vector2();
+
+        // from the origin, generate the position with a random direction and distance
+        do {
+            Vector2 direction = new Vector2(
+                (float)GD.RandRange(-1, 1),
+                (float)GD.RandRange(-1, 1)
+            ).Normalized();
+            float distance = (float)GD.RandRange(
+                associatedBigPlanet.Radius * _smallPlanetMinDistanceBigPlanetRadius,
+                associatedBigPlanet.Radius * _smallPlanetMaxDistanceBigPlanetRadius
+            );
+            position = (direction * distance) + origin;
+            screenPosition = GetCanvasTransform().Xform(position);
+            
+            // if generated position is out of screen, try again
+        } while (
+            (screenPosition.x - smallPlanetRadius < 0) ||
+            (screenPosition.x + smallPlanetRadius > _screenSize.x)
+        );
+
+        return position;
     }
 }
