@@ -62,6 +62,7 @@
     <Compile Include="scripts\nodes\ClickDetector.cs" />
     <Compile Include="scripts\nodes\Main.cs" />
     <Compile Include="scripts\nodes\Planet.cs" />
+    <Compile Include="scripts\nodes\Planets.cs" />
     <Compile Include="scripts\nodes\ShootingStar.cs" />
     <Compile Include="scripts\nodes\ShootingStars.cs" />
     <Compile Include="scripts\nodes\SwipeDetector.cs" />

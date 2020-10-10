@@ -4,12 +4,14 @@ using System;
 public class Main : Node2D
 {   
     private ShootingStars _shootingStars;
+    private Planets _planets;
     private ClickDetector _clickDetector;
     private SwipeDetector _swipeDetector;
 
     public override void _Ready()
     {
         _shootingStars = (ShootingStars)GetNode("ShootingStars");
+        _planets = (Planets)GetNode("Planets");
         _clickDetector = (ClickDetector)GetNode("ClickDetector");
         _swipeDetector = (SwipeDetector)GetNode("SwipeDetector");
         _clickDetector.Connect("Clicked", this, nameof(_OnClick));
@@ -26,6 +28,7 @@ public class Main : Node2D
             if (bodyPosition > viewportHeight * 2)
             {
                 body.QueueFree();
+                _planets.Remove((Planet)body);
             }
         }
     }
