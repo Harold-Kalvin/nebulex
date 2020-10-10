@@ -1,12 +1,6 @@
 using Godot;
 using System;
 
-public enum PlanetType
-{
-    Big,
-    Small,
-}
-
 public class Planet : Polygon2D
 {
     public float Radius {
@@ -16,6 +10,7 @@ public class Planet : Polygon2D
             // set collision shape from radius
             var collisionShape = (CircleShape2D)GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Shape;
             collisionShape.Radius = _radius;
+            Update();
         }
     }
 

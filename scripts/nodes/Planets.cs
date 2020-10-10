@@ -6,7 +6,7 @@ public class Planets : Node2D
 {
     private Vector2 _screenSize;
     private PackedScene _planetScene = GD.Load<PackedScene>("res://scenes/Planet.tscn");
-    private List<Planet> _planets = new List<Planet>();
+    private List<Planet> _bigPlanets = new List<Planet>();
     // planet size
     private float _bigPlanetMinSizeScreenX = 0.25f;
     private float _bigPlanetMaxSizeScreenX = 0.35f;
@@ -29,7 +29,7 @@ public class Planets : Node2D
 
     public override void _Process(float delta)
     {
-        if (_planets.Count == 0)
+        if (_bigPlanets.Count == 0)
         {
             _GeneratePlanets();
         }
@@ -37,7 +37,7 @@ public class Planets : Node2D
         {
             // wait until the last planet has reached a certain point
             // before generating another one (for performance) 
-            Planet lastPlanet = _planets[_planets.Count - 1];
+            Planet lastPlanet = _bigPlanets[_bigPlanets.Count - 1];
             if (lastPlanet.GetGlobalTransformWithCanvas()[2].y > -_screenSize.y / 2)
             {
                 _GeneratePlanets();
@@ -47,8 +47,8 @@ public class Planets : Node2D
 
     public void Remove(Planet planet)
     {
-        if (_planets.Contains(planet)) {
-            _planets.Remove(planet);
+        if (_bigPlanets.Contains(planet)) {
+            _bigPlanets.Remove(planet);
         }
     }
 
@@ -66,11 +66,19 @@ public class Planets : Node2D
     private Planet _GenerateBigPlanet()
     {
         Planet planet = (Planet)_planetScene.Instance();
-        planet.Radius = _GeneratePlanetRadius(PlanetType.Big);
-        planet.Position = _planets.Count == 0 ? _GenerateFirstBigPlanetPosition(planet.Radius) : _GenerateBigPlanetPosition(planet.Radius);
-        _planets.Add(planet);
+        planet.Radius = _GenerateBigPlanetRadius();
+        planet.Position = _bigPlanets.Count == 0 ? _GenerateFirstBigPlanetPosition(planet.Radius) : _GenerateBigPlanetPosition(planet.Radius);
+        _bigPlanets.Add(planet);
         AddChild(planet);
         return planet;
+    }
+
+    private float _GenerateBigPlanetRadius()
+    {
+        return (float)GD.RandRange(
+            (_screenSize.x * _bigPlanetMinSizeScreenX) / 2,
+            (_screenSize.x * _bigPlanetMaxSizeScreenX) / 2
+        );
     }
 
     private Vector2 _GenerateFirstBigPlanetPosition(float planetRadius)
@@ -87,7 +95,7 @@ public class Planets : Node2D
         // random horizontal position
         var x = (float)GD.RandRange((-_screenSize.x / 2) + planetRadius, (_screenSize.x / 2) - planetRadius);
         // vertical position from last planet
-        Planet lastPlanet = _planets[_planets.Count - 1];
+        Planet lastPlanet = _bigPlanets[_bigPlanets.Count - 1];
         float lastPlanetVerticalLimit = (lastPlanet.Position.y - lastPlanet.Radius);
         float minVerticalDistance = _screenSize.x * _bigPlanetMinVerticalDistanceScreenX;
         float maxVerticalDistance = _screenSize.x * _bigPlanetMaxVerticalDistanceScreenX;
@@ -95,30 +103,22 @@ public class Planets : Node2D
         var y = lastPlanetVerticalLimit - verticalDistance;
         return new Vector2(x, y);
     }
-    
-    private float _GeneratePlanetRadius(PlanetType type)
-    {
-        var screenSize = GetViewport().GetVisibleRect().Size.x;
-        if (type == PlanetType.Big)
-        {
-            return (float)GD.RandRange(
-                (screenSize * _bigPlanetMinSizeScreenX) / 2,
-                (screenSize * _bigPlanetMaxSizeScreenX) / 2
-            );
-        }
-        return (float)GD.RandRange(
-            (screenSize * _smallPlanetMinSizeScreenX) / 2,
-            (screenSize * _smallPlanetMaxSizeScreenX) / 2
-        );
-    }
 
     private Planet _GenerateSmallPlanet(Planet associatedBigPlanet)
     {
         Planet planet = (Planet)_planetScene.Instance();
-        planet.Radius = _GeneratePlanetRadius(PlanetType.Small);
+        planet.Radius = _GenerateSmallPlanetRadius();
         planet.Position = _GenerateSmallPlanetPosition(associatedBigPlanet, planet.Radius);
         AddChild(planet);
         return planet;
+    }
+
+    private float _GenerateSmallPlanetRadius()
+    {
+        return (float)GD.RandRange(
+            (_screenSize.x * _smallPlanetMinSizeScreenX) / 2,
+            (_screenSize.x * _smallPlanetMaxSizeScreenX) / 2
+        );
     }
 
     private Vector2 _GenerateSmallPlanetPosition(Planet associatedBigPlanet, float smallPlanetRadius)
