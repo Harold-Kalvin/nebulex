@@ -12,13 +12,17 @@ public class Planets : Node2D
     private float _bigPlanetMaxSizeScreenX = 0.35f;
     private float _smallPlanetMinSizeScreenX = 0.05f;
     private float _smallPlanetMaxSizeScreenX = 0.1f;
-    // small planet apparition rate
-    private float _smallPlanetApparitionRate = 0.4f;
     // planet position
     private float _bigPlanetMinVerticalDistanceScreenX = 0.65f;
     private float _bigPlanetMaxVerticalDistanceScreenX = 0.75f;
     private float _smallPlanetMinDistanceBigPlanetRadius = 2.3f;
     private float _smallPlanetMaxDistanceBigPlanetRadius = 3f;
+    // small planet apparition rate
+    private float _smallPlanetApparitionRate = 0.4f;
+    // planet movement
+    private float _planetMinOrbitalSpeed = 0.5f;
+    private float _planetMaxOrbitalSpeed = 1f;
+
 
     public override void _Ready()
     {
@@ -109,6 +113,8 @@ public class Planets : Node2D
         Planet planet = (Planet)_planetScene.Instance();
         planet.Radius = _GenerateSmallPlanetRadius();
         planet.Position = _GenerateSmallPlanetPosition(associatedBigPlanet, planet.Radius);
+        planet.BarycenterPosition = associatedBigPlanet.Position;
+        planet.OrbitalSpeed = (float)GD.RandRange(_planetMinOrbitalSpeed, _planetMaxOrbitalSpeed);
         AddChild(planet);
         return planet;
     }
