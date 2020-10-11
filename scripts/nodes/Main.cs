@@ -10,6 +10,7 @@ public class Main : Node2D
 
     public override void _Ready()
     {
+        GD.Randomize();
         _shootingStars = (ShootingStars)GetNode("ShootingStars");
         _planets = (Planets)GetNode("Planets");
         _clickDetector = (ClickDetector)GetNode("ClickDetector");
@@ -28,7 +29,12 @@ public class Main : Node2D
             if (bodyPosition > viewportHeight * 2)
             {
                 body.QueueFree();
-                _planets.Remove((Planet)body);
+
+                var planet = body as Planet;
+                if (planet != null)
+                {
+                    _planets.Remove(planet);
+                }
             }
         }
     }

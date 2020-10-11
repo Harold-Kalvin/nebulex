@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 public class Planets : Node2D
 {
+    [Signal]
+    public delegate void BigPlanetCreated();
+
+    public List<Planet> BigPlanets {
+        get => _bigPlanets;
+    }
+
     private Vector2 _screenSize;
     private PackedScene _planetScene = GD.Load<PackedScene>("res://scenes/Planet.tscn");
     private List<Planet> _bigPlanets = new List<Planet>();
@@ -26,8 +33,6 @@ public class Planets : Node2D
 
     public override void _Ready()
     {
-        GD.Randomize();
-
         _screenSize = GetViewport().GetVisibleRect().Size;
     }
 
@@ -74,6 +79,7 @@ public class Planets : Node2D
         planet.Position = _bigPlanets.Count == 0 ? _GenerateFirstBigPlanetPosition(planet.Radius) : _GenerateBigPlanetPosition(planet.Radius);
         _bigPlanets.Add(planet);
         AddChild(planet);
+        EmitSignal("BigPlanetCreated", planet);
         return planet;
     }
 
