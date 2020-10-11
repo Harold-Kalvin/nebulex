@@ -66,7 +66,7 @@
     <Compile Include="scripts\nodes\Planets.cs" />
     <Compile Include="scripts\nodes\ShootingStar.cs" />
     <Compile Include="scripts\nodes\ShootingStars.cs" />
-    <Compile Include="scripts\nodes\SmallCoin.cs" />
+    <Compile Include="scripts\nodes\Coin.cs" />
     <Compile Include="scripts\nodes\SwipeDetector.cs" />
     <Compile Include="scripts\nodes\Trail.cs" />
     <Compile Include="scripts\helpers\Num.cs" />
