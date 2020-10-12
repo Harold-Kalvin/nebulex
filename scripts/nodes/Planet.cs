@@ -1,16 +1,15 @@
 using Godot;
 using System;
 
-public class Planet : Polygon2D
+public class Planet : Sprite
 {
+    public const int CIRCLE_RADIUS = 128;
     public float Radius {
         get => _radius;
         set {
             _radius = value;
-            // set collision shape from radius
-            var collisionShape = (CircleShape2D)GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Shape;
-            collisionShape.Radius = _radius;
-            Update();
+            var scaleComponent = _radius / CIRCLE_RADIUS;
+            Scale = new Vector2(scaleComponent, scaleComponent);
         }
     }
     public Vector2 BarycenterPosition;
@@ -37,11 +36,6 @@ public class Planet : Polygon2D
         }
     }
 
-    public override void _Draw()
-    {
-        DrawCircle(new Vector2(0, 0), _radius, new Color("#6A0DAD"));
-    }
- 
     public override void _Process(float delta)
     {
         // if barycenter exists, make orbital movements around it
