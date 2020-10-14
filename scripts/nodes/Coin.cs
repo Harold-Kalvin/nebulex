@@ -1,8 +1,9 @@
 using Godot;
 using System;
 
-public class Coin : Polygon2D
+public class Coin : Sprite
 {
+    public const int CIRCLE_RADIUS = 128;
     public float Radius {
         get => _radius;
     }
@@ -21,12 +22,7 @@ public class Coin : Polygon2D
             (screenSize.x * _coinMinSizeScreenX) / 2,
             (screenSize.x * _coinMaxSizeScreenX) / 2
         );
-        var collisionShape = (CircleShape2D)GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Shape;
-        collisionShape.Radius = _radius;
-    }
-
-    public override void _Draw()
-    {
-        DrawCircle(new Vector2(0, 0), _radius, new Color("#FFFFFF"));
+        var scaleComponent = _radius / CIRCLE_RADIUS;
+        Scale = new Vector2(scaleComponent, scaleComponent);
     }
 }
