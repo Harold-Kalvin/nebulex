@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/square.png-a07b0c09e99da012e8f7e5d58d728c57.stex"
+path="res://.import/circle-outline.png-d144fd61c0d4f2f09683753464787a3f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/square.png"
-dest_files=[ "res://.import/square.png-a07b0c09e99da012e8f7e5d58d728c57.stex" ]
+source_file="res://assets/shapes/circle-outline.png"
+dest_files=[ "res://.import/circle-outline.png-d144fd61c0d4f2f09683753464787a3f.stex" ]
 
 [params]
 
