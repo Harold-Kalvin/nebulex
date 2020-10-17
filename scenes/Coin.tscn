@@ -1,19 +1,37 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/nodes/Coin.cs" type="Script" id=1]
-[ext_resource path="res://assets/circle-outline.png" type="Texture" id=2]
+[ext_resource path="res://assets/circle-outline-blur.png" type="Texture" id=2]
+[ext_resource path="res://assets/circle-outline.png" type="Texture" id=3]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+
+[sub_resource type="CircleShape2D" id=3]
 resource_local_to_scene = true
-radius = 128.736
+radius = 129.5
 
-[node name="Coin" type="Sprite"]
-modulate = Color( 0.992157, 0.956863, 0.921569, 1 )
+[node name="Coin" type="Node2D"]
 z_index = 95
-texture = ExtResource( 2 )
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Blur" type="Sprite" parent="."]
+modulate = Color( 0.937255, 0.74902, 0.462745, 1 )
+material = SubResource( 1 )
+texture = ExtResource( 2 )
+
+[node name="Body" type="Sprite" parent="."]
+modulate = Color( 0.992157, 0.960784, 0.929412, 1 )
+material = SubResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )

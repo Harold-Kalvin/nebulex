@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public class Coin : Sprite
+public class Coin : Node2D
 {
-    public const int CIRCLE_RADIUS = 128;
+    public const float CIRCLE_RADIUS = 129.5f;
     public float Radius {
         get => _radius;
     }
