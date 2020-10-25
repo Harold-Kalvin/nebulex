@@ -10,11 +10,13 @@ public enum Direction
 public class ShootingStar : Polygon2D
 {
     [Export]
+    private float _sizeScreenX = 0.045f;
+    [Export]
     private float _maxSpeed = 40;
     [Export]
     private float _seekForce = 2.5F;
     [Export]
-    private float _oscillationAmplitude = 0.5f;
+    private float _oscillationAmplitude = 0.6f;
     [Export]
     private float _oscillationAngle = 0;
     [Export]
@@ -42,7 +44,7 @@ public class ShootingStar : Polygon2D
     public override void _Ready()
     {
         // setting radius from screen size
-        Radius = (GetViewport().GetVisibleRect().Size.x * 0.05F) / 2;
+        Radius = (GetViewport().GetVisibleRect().Size.x * _sizeScreenX) / 2;
         GetNode<Line2D>("Trail").Width = Radius;
         var collisionShape = (CircleShape2D)GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Shape;
         collisionShape.Radius = Radius;

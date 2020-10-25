@@ -4,7 +4,7 @@ using System;
 public class Camera : Camera2D
 {
     [Export]
-    private float _offsetScreenY = 0.75F;
+    private float _offsetScreenY = 0.85F;
 
     private Vector2 _screenSize;
 
