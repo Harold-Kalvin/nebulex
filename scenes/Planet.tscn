@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/nodes/Planet.cs" type="Script" id=1]
 [ext_resource path="res://assets/shapes/circle.png" type="Texture" id=2]
 [ext_resource path="res://scripts/shaders/gradient.shader" type="Shader" id=3]
-[ext_resource path="res://gradients/violet2.tres" type="Texture" id=4]
+[ext_resource path="res://gradients/planet.tres" type="Texture" id=4]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true

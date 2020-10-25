@@ -20,7 +20,7 @@ vec2 rotateUV(vec2 uv, vec2 pivot, float rotation) {
 
 void fragment() {
     // gradient
-    vec4 sampled_color = texture(gradient, rotateUV(UV, vec2(0.5), PI/4f));
+    vec4 sampled_color = texture(gradient, rotateUV(UV, vec2(0.5), PI/2f)); // change angle
     vec4 main_texture = vec4(sampled_color.rgb, texture(TEXTURE, UV).a * 1.0);
 
     // apply gradient
