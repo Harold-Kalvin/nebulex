@@ -60,16 +60,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="scripts\nodes\Background.cs" />
     <Compile Include="scripts\nodes\Camera.cs" />
-    <Compile Include="scripts\nodes\ClickDetector.cs" />
-    <Compile Include="scripts\nodes\Coins.cs" />
+    <Compile Include="scripts\nodes\inputs\ClickDetector.cs" />
+    <Compile Include="scripts\nodes\bodies\coins\Coins.cs" />
     <Compile Include="scripts\nodes\Main.cs" />
-    <Compile Include="scripts\nodes\Planet.cs" />
-    <Compile Include="scripts\nodes\Planets.cs" />
-    <Compile Include="scripts\nodes\ShootingStar.cs" />
-    <Compile Include="scripts\nodes\ShootingStars.cs" />
-    <Compile Include="scripts\nodes\Coin.cs" />
-    <Compile Include="scripts\nodes\SwipeDetector.cs" />
-    <Compile Include="scripts\nodes\Trail.cs" />
+    <Compile Include="scripts\nodes\bodies\planets\Planet.cs" />
+    <Compile Include="scripts\nodes\bodies\planets\Planets.cs" />
+    <Compile Include="scripts\nodes\bodies\shootingstars\ShootingStar.cs" />
+    <Compile Include="scripts\nodes\bodies\shootingstars\ShootingStars.cs" />
+    <Compile Include="scripts\nodes\bodies\coins\Coin.cs" />
+    <Compile Include="scripts\nodes\inputs\SwipeDetector.cs" />
+    <Compile Include="scripts\nodes\bodies\shootingstars\Trail.cs" />
     <Compile Include="scripts\helpers\Num.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

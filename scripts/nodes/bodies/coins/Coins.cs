@@ -4,7 +4,7 @@ using System;
 public class Coins : Node2D
 {
     private Vector2 _screenSize;
-    private PackedScene _coinScene = GD.Load<PackedScene>("res://scenes/Coin.tscn");
+    private PackedScene _coinScene = GD.Load<PackedScene>("res://scenes/bodies/Coin.tscn");
     private Planets _planets;
     private int _planetsCount = 0;
     private int _coinsEveryOtherPlanets = 2;

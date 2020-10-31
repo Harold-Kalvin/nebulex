@@ -12,7 +12,7 @@ public class Planets : Node2D
     }
 
     private Vector2 _screenSize;
-    private PackedScene _planetScene = GD.Load<PackedScene>("res://scenes/Planet.tscn");
+    private PackedScene _planetScene = GD.Load<PackedScene>("res://scenes/bodies/Planet.tscn");
     private List<Planet> _bigPlanets = new List<Planet>();
     // planet size
     private float _bigPlanetMinSizeScreenX = 0.25f;

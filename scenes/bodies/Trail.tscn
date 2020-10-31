@@ -1,6 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scripts/nodes/Trail.cs" type="Script" id=1]
+[ext_resource path="res://scripts/nodes/bodies/shootingstars/Trail.cs" type="Script" id=1]
+
 
 [sub_resource type="Curve" id=1]
 max_value = 2.0

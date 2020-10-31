@@ -22,7 +22,7 @@ public class ShootingStars : Node2D
 
     private Vector2 _screenSize;
     private Timer _idleTimer;
-    private PackedScene _shootingStarScene = GD.Load<PackedScene>("res://scenes/ShootingStar.tscn");
+    private PackedScene _shootingStarScene = GD.Load<PackedScene>("res://scenes/bodies/ShootingStar.tscn");
     private Dictionary<Role, ShootingStar> _shootingStars = new Dictionary<Role, ShootingStar>();
     private ShootingStar _leftClone {
         get => _shootingStars[Role.LeftClone];
