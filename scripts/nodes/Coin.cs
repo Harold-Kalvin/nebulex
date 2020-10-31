@@ -25,4 +25,13 @@ public class Coin : Node2D
         var scaleComponent = _radius / CIRCLE_RADIUS;
         Scale = new Vector2(scaleComponent, scaleComponent);
     }
+
+    public void Explode()
+    {
+        // hide body
+        GetNode<Sprite>("Blur").Hide();
+        GetNode<Sprite>("Body").Hide();
+        // emit particles
+        GetNode<Particles2D>("Explosion").Emitting = true;
+    }
 }

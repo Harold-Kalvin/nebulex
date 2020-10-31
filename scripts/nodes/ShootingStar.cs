@@ -126,6 +126,11 @@ public class ShootingStar : Polygon2D
 
     private void _OnObstacleEntered(Node2D body)
     {
-        GD.Print($"collided with body: {body}");
+        // if collided with coin
+        var coin = body.GetParent() as Coin;
+        if (coin != null)
+        {
+            coin.Explode();
+        }
     }
 }
