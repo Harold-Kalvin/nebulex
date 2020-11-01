@@ -7,7 +7,7 @@ public enum Direction
     Right,
 }
 
-public class ShootingStar : Polygon2D
+public class BaseShootingStar : Node2D
 {
     [Export]
     private float _sizeScreenX = 0.045f;
@@ -21,6 +21,8 @@ public class ShootingStar : Polygon2D
     private float _oscillationAngle = 0;
     [Export]
     private float _oscillationAngularVelocity = 0.05f;
+
+    public const float CIRCLE_RADIUS = 128;
 
     public float Radius;
     public Vector2 Target = new Vector2(0, -1);
@@ -45,20 +47,14 @@ public class ShootingStar : Polygon2D
     {
         // setting radius from screen size
         Radius = (GetViewport().GetVisibleRect().Size.x * _sizeScreenX) / 2;
-        GetNode<Line2D>("Trail").Width = Radius;
-        var collisionShape = (CircleShape2D)GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Shape;
-        collisionShape.Radius = Radius;
+        var scaleComponent = Radius / CIRCLE_RADIUS;
+        Scale = new Vector2(scaleComponent, scaleComponent);
 
         // connecting collision signal
         GetNode<Area2D>("Area2D").Connect("area_entered", this, "_OnObstacleEntered");
 
         // init min speed
         _minSpeed = _maxSpeed / 3;
-    }
-
-    public override void _Draw()
-    {   
-        DrawCircle(new Vector2(0, 0), Radius, new Color("#FFFFFF"));
     }
 
     public override void _Process(float delta)
@@ -92,16 +88,14 @@ public class ShootingStar : Polygon2D
         Translate(_velocity);
     }
 
-    public void HideWithChildren()
+    public void HideAll()
     {
         Hide();
-        GetNode<Line2D>("Trail").Hide();
     }
 
-    public void ShowWithChildren()
+    public void ShowAll()
     {
         Show();
-        GetNode<Line2D>("Trail").Show();
     }
 
     public void SetCameraCurrent()

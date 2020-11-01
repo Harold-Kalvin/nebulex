@@ -16,18 +16,18 @@ enum Role {
 
 public class ShootingStars : Node2D
 {
-    public ShootingStar ShootingStar {
+    public BaseShootingStar ShootingStar {
         get => _shootingStars[Role.Current];
     }
 
     private Vector2 _screenSize;
     private Timer _idleTimer;
-    private PackedScene _shootingStarScene = GD.Load<PackedScene>("res://scenes/bodies/ShootingStar.tscn");
-    private Dictionary<Role, ShootingStar> _shootingStars = new Dictionary<Role, ShootingStar>();
-    private ShootingStar _leftClone {
+    private PackedScene _shootingStarScene = GD.Load<PackedScene>("res://scenes/bodies/shootingstars/BaseShootingStar.tscn");
+    private Dictionary<Role, BaseShootingStar> _shootingStars = new Dictionary<Role, BaseShootingStar>();
+    private BaseShootingStar _leftClone {
         get => _shootingStars[Role.LeftClone];
     }
-    private ShootingStar _rightClone {
+    private BaseShootingStar _rightClone {
         get => _shootingStars[Role.RightClone];
     }
 
@@ -40,7 +40,7 @@ public class ShootingStars : Node2D
         _idleTimer.Connect("timeout", this, nameof(_OnIdleTimerTimout));
 
         // the "current" shooting star is the one visible on screen
-        _shootingStars[Role.Current]  = (ShootingStar)_shootingStarScene.Instance();
+        _shootingStars[Role.Current]  = (BaseShootingStar)_shootingStarScene.Instance();
         ShootingStar.SetCameraCurrent();
         AddChild(ShootingStar);
         
@@ -50,8 +50,8 @@ public class ShootingStars : Node2D
         // from one edge to reappear at the other
         _shootingStars[Role.LeftClone] = _CloneShootingStar(new Vector2(-_screenSize.x, 0));
         _shootingStars[Role.RightClone] = _CloneShootingStar(new Vector2(_screenSize.x, 0));
-        _leftClone.HideWithChildren();
-        _rightClone.HideWithChildren();
+        _leftClone.HideAll();
+        _rightClone.HideAll();
         AddChild(_leftClone);
         AddChild(_rightClone);
     }
@@ -61,14 +61,14 @@ public class ShootingStars : Node2D
         // hide the clones if the current one isn't near the edges (for performance)
         if (_NearEdges() == Edge.None)
         {
-            _leftClone.HideWithChildren();
-            _rightClone.HideWithChildren();
+            _leftClone.HideAll();
+            _rightClone.HideAll();
         }
         // show back the clones if the current one is near the edges
         // then replaces the current one with a clone if it leaves the screen
         else if (_NearEdges() == Edge.Left)
         {
-            _rightClone.ShowWithChildren();
+            _rightClone.ShowAll();
             if (_OutsideEdges())
             {
                 _replaceCurrentWithClone(Edge.Left);
@@ -76,7 +76,7 @@ public class ShootingStars : Node2D
         }
         else if (_NearEdges() == Edge.Right)
         {
-            _leftClone.ShowWithChildren();
+            _leftClone.ShowAll();
             if (_OutsideEdges())
             {
                 _replaceCurrentWithClone(Edge.Right);
@@ -133,9 +133,9 @@ public class ShootingStars : Node2D
         _rightClone.CanBeIdle = value;
     }
 
-    private ShootingStar _CloneShootingStar(Vector2 offsetPosition)
+    private BaseShootingStar _CloneShootingStar(Vector2 offsetPosition)
     {
-        var clone = (ShootingStar)_shootingStarScene.Instance();
+        var clone = (BaseShootingStar)_shootingStarScene.Instance();
         clone.Position = ShootingStar.Position + offsetPosition;
         clone.Target = ShootingStar.Target + offsetPosition;
         return clone;
@@ -164,10 +164,10 @@ public class ShootingStars : Node2D
 
     private void _replaceCurrentWithClone(Edge exitSide)
     {
-        ShootingStar currentTemp = ShootingStar;
+        BaseShootingStar currentTemp = ShootingStar;
         if (exitSide == Edge.Left)
         {
-            ShootingStar leftTemp = _leftClone;
+            BaseShootingStar leftTemp = _leftClone;
             _shootingStars[Role.Current] = _rightClone;
             _shootingStars[Role.LeftClone] = currentTemp;
             _shootingStars[Role.RightClone] = leftTemp;
@@ -176,7 +176,7 @@ public class ShootingStars : Node2D
         }
         else if (exitSide == Edge.Right)
         {
-            ShootingStar rightTemp = _rightClone;
+            BaseShootingStar rightTemp = _rightClone;
             _shootingStars[Role.Current] = _leftClone;
             _shootingStars[Role.RightClone] = currentTemp;
             _shootingStars[Role.LeftClone] = rightTemp;
