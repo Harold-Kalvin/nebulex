@@ -2,8 +2,8 @@
 
 [ext_resource path="res://scripts/nodes/bodies/shootingstars/Trail.cs" type="Script" id=1]
 
-
 [sub_resource type="Curve" id=1]
+resource_local_to_scene = true
 max_value = 2.0
 _data = [ Vector2( 0.010989, 0.0090909 ), 0.0, 0.0, 0, 0, Vector2( 1, 2 ), 0.0, 0.0, 0, 0 ]
 
