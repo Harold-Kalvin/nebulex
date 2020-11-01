@@ -88,12 +88,12 @@ public class BaseShootingStar : Node2D
         Translate(_velocity);
     }
 
-    public void HideAll()
+    public virtual void HideAll()
     {
         Hide();
     }
 
-    public void ShowAll()
+    public virtual void ShowAll()
     {
         Show();
     }

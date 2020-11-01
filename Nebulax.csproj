@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="scripts\nodes\Background.cs" />
+    <Compile Include="scripts\nodes\bodies\shootingstars\BaseShootingStarWithTrail.cs" />
     <Compile Include="scripts\nodes\Camera.cs" />
     <Compile Include="scripts\nodes\inputs\ClickDetector.cs" />
     <Compile Include="scripts\nodes\bodies\coins\Coins.cs" />
