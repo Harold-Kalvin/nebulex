@@ -144,7 +144,7 @@ public class ShootingStars : Node2D
     private Edge _NearEdges()
     {
         var screenPos = ShootingStar.GetGlobalTransformWithCanvas()[2].x;
-        var limitX = _screenSize.x * 0.1;
+        var limitX = _screenSize.x * 0.25;
         if (screenPos < limitX)
         {
             return Edge.Left;
