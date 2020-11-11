@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+[Tool]
 public class Background : TextureRect
 {
     public override void _Ready()
