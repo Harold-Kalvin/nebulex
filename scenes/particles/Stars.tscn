@@ -11,18 +11,17 @@ direction = Vector3( 0, 10, 0 )
 spread = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 100.0
-initial_velocity_random = 0.6
+initial_velocity_random = 0.7
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale = 0.05
-scale_random = 0.35
+scale = 0.07
+scale_random = 0.25
 
 [node name="Stars" type="Particles2D"]
 position = Vector2( 360, 0 )
-amount = 50
+amount = 35
 lifetime = 30.0
 preprocess = 50.0
-randomness = 1.0
 process_material = SubResource( 1 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
