@@ -37,6 +37,9 @@ public class BaseShootingStar : Node2D
             }
         }
     }
+    public bool Destroyed {
+        get => _destroyed;
+    }
 
     private Vector2 _velocity;
     private float _minSpeed;
