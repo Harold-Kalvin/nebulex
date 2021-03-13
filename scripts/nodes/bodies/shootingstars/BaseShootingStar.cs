@@ -152,6 +152,8 @@ public class BaseShootingStar : Node2D
         var planet = body.GetParent() as Planet;
         if (planet != null)
         {
+            var game = (Game)GetNode("/root/Game");
+            game.GameOver();
             Disintegrate();
         }
     }

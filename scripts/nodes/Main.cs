@@ -3,6 +3,7 @@ using System;
 
 public class Main : Node2D
 {   
+    private Game _game;
     private ShootingStars _shootingStars;
     private Planets _planets;
     private ClickDetector _clickDetector;
@@ -11,10 +12,16 @@ public class Main : Node2D
     public override void _Ready()
     {
         GD.Randomize();
+
+        // get nodes
+        _game = (Game)GetNode("/root/Game");
         _shootingStars = (ShootingStars)GetNode("ShootingStars");
         _planets = (Planets)GetNode("Planets");
         _clickDetector = (ClickDetector)GetNode("ClickDetector");
         _swipeDetector = (SwipeDetector)GetNode("SwipeDetector");
+
+        // connect signals
+        _game.Connect("Over", this, nameof(_OnGameOver));
         _clickDetector.Connect("Clicked", this, nameof(_OnClick));
         _swipeDetector.Connect("Swiped", this, nameof(_OnSwipe));
     }
@@ -54,5 +61,9 @@ public class Main : Node2D
         {
             _shootingStars.MoveRight();
         }
+    }
+
+    private void _OnGameOver() {
+        // TODO
     }
 }

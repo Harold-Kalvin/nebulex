@@ -19,6 +19,10 @@ config/name="Nebulax"
 run/main_scene="res://scenes/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Game="*res://scripts/autoloaded/Game.cs"
+
 [display]
 
 window/size/width=720
