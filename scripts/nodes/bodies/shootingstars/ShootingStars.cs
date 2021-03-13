@@ -30,6 +30,7 @@ public class ShootingStars : Node2D
     private BaseShootingStar _rightClone {
         get => _shootingStars[Role.RightClone];
     }
+    private bool _destroyed = false;
 
     public override void _Ready()
     {
@@ -57,7 +58,21 @@ public class ShootingStars : Node2D
     }
 
     public override void _Process(float delta)
-    {
+    {   
+        if (_destroyed) {
+            return;
+        }
+
+        if (ShootingStar.Destroyed) {
+            _destroyed = true;
+            if (IsInstanceValid(_leftClone)) {
+                _leftClone.QueueFree();
+            }
+            if (IsInstanceValid(_rightClone)) {
+                _rightClone.QueueFree();
+            }
+        }
+
         // hide the clones if the current one isn't near the edges (for performance)
         if (_NearEdges() == Edge.None)
         {
@@ -86,6 +101,10 @@ public class ShootingStars : Node2D
 
     public void Sprint()
     {
+        if (_destroyed) {
+            return;
+        }
+
         var farForward = ShootingStar.Position.y - _screenSize.x * 0.5f;
         _SetTarget(new Vector2(ShootingStar.Position.x, farForward));
         _SetCanBeIdle(true);
@@ -93,6 +112,10 @@ public class ShootingStars : Node2D
 
     public void MoveLeft()
     {
+        if (_destroyed) {
+            return;
+        }
+
         var farLeft = ShootingStar.Position.x - _screenSize.x * 0.25f;
         _SetTarget(new Vector2(farLeft, ShootingStar.Position.y));
         _SetDirection(Direction.Left);
@@ -102,6 +125,10 @@ public class ShootingStars : Node2D
 
     public void MoveRight()
     {
+        if (_destroyed) {
+            return;
+        }
+
         var farRight = ShootingStar.Position.x + _screenSize.x * 0.25f;
         _SetTarget(new Vector2(farRight, ShootingStar.Position.y));
         _SetDirection(Direction.Right);

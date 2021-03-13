@@ -37,11 +37,15 @@ public class BaseShootingStar : Node2D
             }
         }
     }
+    public bool Destroyed {
+        get => _destroyed;
+    }
 
     private Vector2 _velocity;
     private float _minSpeed;
     private bool _canBeIdle = true;
     private bool _isIdle = true;
+    protected bool _destroyed = false;
 
     public override void _Ready()
     {
@@ -59,6 +63,10 @@ public class BaseShootingStar : Node2D
 
     public override void _Process(float delta)
     {
+        if (_destroyed) {
+            return;
+        }
+
         // move (on sides)
         _Seek(delta);
 
@@ -98,6 +106,15 @@ public class BaseShootingStar : Node2D
         Show();
     }
 
+    public virtual void Disintegrate()
+    {
+        _destroyed = true;
+        // hide body
+        GetNode<Sprite>("Body").Hide();
+        // emit particles
+        GetNode<Particles2D>("Disintegration").Emitting = true;
+    }
+
     public void SetCameraCurrent()
     {
         GetNode<Camera2D>("Camera").Current = true;
@@ -120,11 +137,22 @@ public class BaseShootingStar : Node2D
 
     private void _OnObstacleEntered(Node2D body)
     {
+        if (_destroyed) {
+            return;
+        }
+
         // if collided with coin
         var coin = body.GetParent() as Coin;
         if (coin != null)
         {
             coin.Explode();
+        }
+
+        // if collided with planet
+        var planet = body.GetParent() as Planet;
+        if (planet != null)
+        {
+            Disintegrate();
         }
     }
 }
