@@ -13,4 +13,8 @@ public class Stars : Particles2D
         // emission range centered
         Position = new Vector2(_screenSize.x / 2, 0);
     }
+
+    public void Pause() {
+        SpeedScale = 0;
+    }
 }

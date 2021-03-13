@@ -8,6 +8,7 @@ public class Main : Node2D
     private Planets _planets;
     private ClickDetector _clickDetector;
     private SwipeDetector _swipeDetector;
+    private Stars _stars;
 
     public override void _Ready()
     {
@@ -19,6 +20,7 @@ public class Main : Node2D
         _planets = (Planets)GetNode("Planets");
         _clickDetector = (ClickDetector)GetNode("ClickDetector");
         _swipeDetector = (SwipeDetector)GetNode("SwipeDetector");
+        _stars = (Stars)GetNode("CanvasLayer").GetNode("Stars");
 
         // connect signals
         _game.Connect("Over", this, nameof(_OnGameOver));
@@ -64,6 +66,6 @@ public class Main : Node2D
     }
 
     private void _OnGameOver() {
-        // TODO
+        _stars.Pause();
     }
 }
