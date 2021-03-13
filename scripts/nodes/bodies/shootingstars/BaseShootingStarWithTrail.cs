@@ -20,4 +20,10 @@ public class BaseShootingStarWithTrail : BaseShootingStar
         Show();
         GetNode<Line2D>("Trail").Show();
     }
+
+    public override void Disintegrate()
+    {
+        GetNode<Line2D>("Trail").Hide();
+        base.Disintegrate();
+    }
 }
