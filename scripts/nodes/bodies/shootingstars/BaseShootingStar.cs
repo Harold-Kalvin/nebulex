@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public enum Direction
 {
@@ -117,7 +118,12 @@ public class BaseShootingStar : Node2D
 
     public void SetCameraCurrent()
     {
-        GetNode<Camera2D>("Camera").Current = true;
+        GetNode<Camera>("Camera").Current = true;
+    }
+
+    public async Task MoveCamera()
+    {
+        await GetNode<Camera>("Camera").MoveOffset();
     }
 
     private void _Seek(float delta)

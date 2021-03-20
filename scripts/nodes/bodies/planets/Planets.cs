@@ -11,6 +11,7 @@ public class Planets : Node2D
         get => _bigPlanets;
     }
 
+    private Game _game;
     private Vector2 _screenSize;
     private PackedScene _planetScene = GD.Load<PackedScene>("res://scenes/bodies/Planet.tscn");
     private List<Planet> _bigPlanets = new List<Planet>();
@@ -33,11 +34,16 @@ public class Planets : Node2D
 
     public override void _Ready()
     {
+        _game = (Game)GetNode("/root/Game");
         _screenSize = GetViewport().GetVisibleRect().Size;
     }
 
     public override void _Process(float delta)
     {
+        if (!_game.Started) {
+            return;
+        }
+
         if (_bigPlanets.Count == 0)
         {
             _GeneratePlanets();

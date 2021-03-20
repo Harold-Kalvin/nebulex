@@ -26,6 +26,9 @@ public class Main : Node2D
         _game.Connect("Over", this, nameof(_OnGameOver));
         _clickDetector.Connect("Clicked", this, nameof(_OnClick));
         _swipeDetector.Connect("Swiped", this, nameof(_OnSwipe));
+
+        // start !
+        InitGame();
     }
 
     public override void _Process(float delta)
@@ -48,13 +51,26 @@ public class Main : Node2D
         }
     }
 
+    public async void InitGame() {
+        await _shootingStars.Init();
+        _game.Start();
+    }
+
     private void _OnClick()
     {
+        if (!_game.Started) {
+            return;
+        }
+
         _shootingStars.Sprint();
     }
 
     private void _OnSwipe(SwipeDirection direction)
     {
+        if (!_game.Started) {
+            return;
+        }
+
         if (direction == SwipeDirection.Left)
         {
             _shootingStars.MoveLeft();

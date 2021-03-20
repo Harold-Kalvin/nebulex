@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 enum Edge {
     None,
@@ -17,7 +18,7 @@ enum Role {
 public class ShootingStars : Node2D
 {
     public BaseShootingStar ShootingStar {
-        get => _shootingStars[Role.Current];
+        get => _shootingStars.ContainsKey(Role.Current) ? _shootingStars[Role.Current] : null;
     }
 
     private Vector2 _screenSize;
@@ -25,12 +26,15 @@ public class ShootingStars : Node2D
     private PackedScene _shootingStarScene = GD.Load<PackedScene>("res://scenes/bodies/shootingstars/BaseShootingStarWithTrail.tscn");
     private Dictionary<Role, BaseShootingStar> _shootingStars = new Dictionary<Role, BaseShootingStar>();
     private BaseShootingStar _leftClone {
-        get => _shootingStars[Role.LeftClone];
+        get => _shootingStars.ContainsKey(Role.LeftClone) ? _shootingStars[Role.LeftClone] : null;
     }
     private BaseShootingStar _rightClone {
-        get => _shootingStars[Role.RightClone];
+        get => _shootingStars.ContainsKey(Role.RightClone) ? _shootingStars[Role.RightClone] : null;
     }
     private bool _destroyed = false;
+    private bool _initialized {
+        get => ShootingStar != null && _leftClone != null && _rightClone != null;
+    }
 
     public override void _Ready()
     {
@@ -39,27 +43,11 @@ public class ShootingStars : Node2D
         // time before idle mode
         _idleTimer = (Timer)GetNode("IdleTimer");
         _idleTimer.Connect("timeout", this, nameof(_OnIdleTimerTimout));
-
-        // the "current" shooting star is the one visible on screen
-        _shootingStars[Role.Current]  = (BaseShootingStar)_shootingStarScene.Instance();
-        ShootingStar.SetCameraCurrent();
-        AddChild(ShootingStar);
-        
-        // the "clones" are the ones outside the screen
-        // if the current one leaves the screen, one of the clones takes its place
-        // it creates a "teleport" effect: the shooting star leaves the screen
-        // from one edge to reappear at the other
-        _shootingStars[Role.LeftClone] = _CloneShootingStar(new Vector2(-_screenSize.x, 0));
-        _shootingStars[Role.RightClone] = _CloneShootingStar(new Vector2(_screenSize.x, 0));
-        _leftClone.HideAll();
-        _rightClone.HideAll();
-        AddChild(_leftClone);
-        AddChild(_rightClone);
     }
 
     public override void _Process(float delta)
     {   
-        if (_destroyed) {
+        if (_destroyed || !_initialized) {
             return;
         }
 
@@ -99,9 +87,32 @@ public class ShootingStars : Node2D
         }
     }
 
+    public async Task Init() {
+        if (IsInstanceValid(ShootingStar)) {
+            ShootingStar.QueueFree();
+        }
+
+        // the "current" shooting star is the one visible on screen
+        _shootingStars[Role.Current]  = (BaseShootingStar)_shootingStarScene.Instance();
+        AddChild(ShootingStar);
+        ShootingStar.SetCameraCurrent();
+        await ShootingStar.MoveCamera();
+        
+        // the "clones" are the ones outside the screen
+        // if the current one leaves the screen, one of the clones takes its place
+        // it creates a "teleport" effect: the shooting star leaves the screen
+        // from one edge to reappear at the other
+        _shootingStars[Role.LeftClone] = _CloneShootingStar(new Vector2(-_screenSize.x, 0));
+        _shootingStars[Role.RightClone] = _CloneShootingStar(new Vector2(_screenSize.x, 0));
+        _leftClone.HideAll();
+        _rightClone.HideAll();
+        AddChild(_leftClone);
+        AddChild(_rightClone);
+    }
+
     public void Sprint()
     {
-        if (_destroyed) {
+        if (_destroyed || !_initialized) {
             return;
         }
 
@@ -112,7 +123,7 @@ public class ShootingStars : Node2D
 
     public void MoveLeft()
     {
-        if (_destroyed) {
+        if (_destroyed || !_initialized) {
             return;
         }
 
@@ -125,7 +136,7 @@ public class ShootingStars : Node2D
 
     public void MoveRight()
     {
-        if (_destroyed) {
+        if (_destroyed || !_initialized) {
             return;
         }
 

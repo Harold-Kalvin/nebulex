@@ -7,3 +7,5 @@ anchor_mode = 0
 limit_left = 0
 limit_right = 0
 script = ExtResource( 1 )
+
+[node name="OffsetTween" type="Tween" parent="."]
