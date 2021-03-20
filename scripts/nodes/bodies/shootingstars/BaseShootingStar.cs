@@ -41,6 +41,7 @@ public class BaseShootingStar : Node2D
     public bool Destroyed {
         get => _destroyed;
     }
+    public bool Current = true; 
 
     private Vector2 _velocity;
     private float _minSpeed;
@@ -143,7 +144,7 @@ public class BaseShootingStar : Node2D
 
     private void _OnObstacleEntered(Node2D body)
     {
-        if (_destroyed) {
+        if (_destroyed || !Current) {
             return;
         }
 

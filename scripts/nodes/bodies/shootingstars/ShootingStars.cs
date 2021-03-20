@@ -176,6 +176,7 @@ public class ShootingStars : Node2D
         var clone = (BaseShootingStar)_shootingStarScene.Instance();
         clone.Position = ShootingStar.Position + offsetPosition;
         clone.Target = ShootingStar.Target + offsetPosition;
+        clone.Current = false;
         return clone;
     }
 
@@ -202,6 +203,7 @@ public class ShootingStars : Node2D
 
     private void _replaceCurrentWithClone(Edge exitSide)
     {
+        ShootingStar.Current = false;
         BaseShootingStar currentTemp = ShootingStar;
         if (exitSide == Edge.Left)
         {
@@ -221,6 +223,7 @@ public class ShootingStars : Node2D
             _leftClone.Position = new Vector2(_leftClone.Position.x - _screenSize.x * 3, _leftClone.Position.y);
             _leftClone.Target = new Vector2(_leftClone.Target.x - _screenSize.x * 3, _leftClone.Target.y);
         }
+        ShootingStar.Current = true;
         ShootingStar.SetCameraCurrent();
     }
 
