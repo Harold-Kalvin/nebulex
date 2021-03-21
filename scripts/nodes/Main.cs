@@ -85,6 +85,7 @@ public class Main : Node2D
 
     private void _OnGameOver() {
         _stars.Pause();
+        _planets.FadeAll();
         _coins.ExplodeAll();
     }
 }

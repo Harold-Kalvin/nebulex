@@ -4,6 +4,7 @@ using System;
 public class Planet : Sprite
 {
     public const int CIRCLE_RADIUS = 128;
+    public const float FADE_DURATION = 0.5f;
     public float Radius {
         get => _radius;
         set {
@@ -45,5 +46,14 @@ public class Planet : Sprite
             var offset = new Vector2(Mathf.Sin(_angleToBarycenter), Mathf.Cos(_angleToBarycenter)) * _distanceToBarycenter;
             Position = BarycenterPosition + offset;
         }
+    }
+
+    public async void Fade() {
+        var fadeTween = GetNode<Tween>("FadeTween");
+        Color transparent = new Color(Modulate.r, Modulate.g, Modulate.b, 0);
+        fadeTween.InterpolateProperty(this, "modulate", Modulate, transparent, FADE_DURATION);
+        fadeTween.Start();
+        await ToSignal(fadeTween, "tween_completed");
+        QueueFree();
     }
 }

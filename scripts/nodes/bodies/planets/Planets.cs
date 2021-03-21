@@ -60,6 +60,19 @@ public class Planets : Node2D
         }
     }
 
+    public void FadeAll() {
+        // fade all planets
+        foreach (Node2D body in GetTree().GetNodesInGroup("bodies"))
+        {
+            var planet = body as Planet;
+            if (planet != null)
+            {
+                planet.Fade();
+            }
+        }
+
+    }
+
     public void Remove(Planet planet)
     {
         if (_bigPlanets.Contains(planet)) {
