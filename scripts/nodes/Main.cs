@@ -6,6 +6,7 @@ public class Main : Node2D
     private Game _game;
     private ShootingStars _shootingStars;
     private Planets _planets;
+    private Coins _coins;
     private ClickDetector _clickDetector;
     private SwipeDetector _swipeDetector;
     private Stars _stars;
@@ -18,6 +19,7 @@ public class Main : Node2D
         _game = (Game)GetNode("/root/Game");
         _shootingStars = (ShootingStars)GetNode("ShootingStars");
         _planets = (Planets)GetNode("Planets");
+        _coins = (Coins)GetNode("Coins");
         _clickDetector = (ClickDetector)GetNode("ClickDetector");
         _swipeDetector = (SwipeDetector)GetNode("SwipeDetector");
         _stars = (Stars)GetNode("CanvasLayer").GetNode("Stars");
@@ -83,5 +85,6 @@ public class Main : Node2D
 
     private void _OnGameOver() {
         _stars.Pause();
+        _coins.ExplodeAll();
     }
 }

@@ -26,12 +26,13 @@ public class Coin : Node2D
         Scale = new Vector2(scaleComponent, scaleComponent);
     }
 
-    public void Explode()
+    public async void Explode()
     {
         // hide body
         GetNode<Sprite>("Blur").Hide();
         GetNode<Sprite>("Body").Hide();
         // emit particles
-        GetNode<Particles2D>("Explosion").Emitting = true;
+        await GetNode<CustomParticles>("Explosion").Emit();
+        QueueFree();
     }
 }

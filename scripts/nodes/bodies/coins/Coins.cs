@@ -16,6 +16,18 @@ public class Coins : Node2D
         _planets.Connect("BigPlanetCreated", this, nameof(_OnBigPlanetCreated));
     }
 
+    public void ExplodeAll() {
+        // explode all coins
+        foreach (Node2D body in GetTree().GetNodesInGroup("bodies"))
+        {
+            var coin = body as Coin;
+            if (coin != null)
+            {
+                coin.Explode();
+            }
+        }
+    }
+
     private void _GenerateCoin(Vector2 pos)
     {
         Coin smallCoin = (Coin)_coinScene.Instance();

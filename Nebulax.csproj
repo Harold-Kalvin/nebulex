@@ -73,6 +73,7 @@
     <Compile Include="scripts\nodes\inputs\SwipeDetector.cs" />
     <Compile Include="scripts\nodes\bodies\shootingstars\Trail.cs" />
     <Compile Include="scripts\helpers\Num.cs" />
+    <Compile Include="scripts\nodes\particles\CustomParticles.cs" />
     <Compile Include="scripts\nodes\particles\Stars.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
