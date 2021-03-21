@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Main : Node2D
+public class GameScene : Node2D
 {   
     private Game _game;
     private ShootingStars _shootingStars;

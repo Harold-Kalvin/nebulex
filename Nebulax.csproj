@@ -64,7 +64,7 @@
     <Compile Include="scripts\nodes\bodies\shootingstars\Camera.cs" />
     <Compile Include="scripts\nodes\inputs\ClickDetector.cs" />
     <Compile Include="scripts\nodes\bodies\coins\Coins.cs" />
-    <Compile Include="scripts\nodes\Main.cs" />
+    <Compile Include="scripts\nodes\GameScene.cs" />
     <Compile Include="scripts\nodes\bodies\planets\Planet.cs" />
     <Compile Include="scripts\nodes\bodies\planets\Planets.cs" />
     <Compile Include="scripts\nodes\bodies\shootingstars\BaseShootingStar.cs" />

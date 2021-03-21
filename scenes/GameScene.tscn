@@ -1,0 +1,51 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://gradients/background.tres" type="Gradient" id=1]
+[ext_resource path="res://scripts/nodes/bodies/coins/Coins.cs" type="Script" id=2]
+[ext_resource path="res://scripts/nodes/bodies/planets/Planets.cs" type="Script" id=3]
+[ext_resource path="res://assets/shapes/square.png" type="Texture" id=4]
+[ext_resource path="res://scripts/shaders/gradient.shader" type="Shader" id=5]
+[ext_resource path="res://scenes/particles/Stars.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/inputs/SwipeDetector.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/Background.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/inputs/ClickDetector.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/nodes/GameScene.cs" type="Script" id=10]
+[ext_resource path="res://scripts/nodes/bodies/shootingstars/ShootingStars.cs" type="Script" id=11]
+
+[sub_resource type="GradientTexture" id=1]
+resource_local_to_scene = true
+gradient = ExtResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/gradient = SubResource( 1 )
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource( 10 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" parent="CanvasLayer" instance=ExtResource( 8 )]
+material = SubResource( 2 )
+texture = ExtResource( 4 )
+
+[node name="Stars" parent="CanvasLayer" instance=ExtResource( 6 )]
+
+[node name="ClickDetector" parent="." instance=ExtResource( 9 )]
+
+[node name="SwipeDetector" parent="." instance=ExtResource( 7 )]
+
+[node name="ShootingStars" type="Node2D" parent="."]
+script = ExtResource( 11 )
+
+[node name="IdleTimer" type="Timer" parent="ShootingStars"]
+wait_time = 0.5
+one_shot = true
+
+[node name="Planets" type="Node2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="Coins" type="Node2D" parent="."]
+script = ExtResource( 2 )
