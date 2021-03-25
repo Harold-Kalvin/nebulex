@@ -52,7 +52,7 @@ public class BaseShootingStar : Node2D
     public override void _Ready()
     {
         // setting radius from screen size
-        Radius = (GetViewport().GetVisibleRect().Size.x * _sizeScreenX) / 2;
+        Radius = (Screen.Size.x * _sizeScreenX) / 2;
         var scaleComponent = Radius / CIRCLE_RADIUS;
         Scale = new Vector2(scaleComponent, scaleComponent);
 

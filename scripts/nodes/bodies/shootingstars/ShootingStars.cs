@@ -20,8 +20,6 @@ public class ShootingStars : Node2D
     public BaseShootingStar ShootingStar {
         get => _shootingStars.ContainsKey(Role.Current) ? _shootingStars[Role.Current] : null;
     }
-
-    private Vector2 _screenSize;
     private Timer _idleTimer;
     private PackedScene _shootingStarScene = GD.Load<PackedScene>("res://scenes/bodies/shootingstars/BaseShootingStarWithTrail.tscn");
     private Dictionary<Role, BaseShootingStar> _shootingStars = new Dictionary<Role, BaseShootingStar>();
@@ -37,9 +35,7 @@ public class ShootingStars : Node2D
     }
 
     public override void _Ready()
-    {
-        _screenSize = GetViewport().GetVisibleRect().Size;
-        
+    {        
         // time before idle mode
         _idleTimer = (Timer)GetNode("IdleTimer");
         _idleTimer.Connect("timeout", this, nameof(_OnIdleTimerTimout));
@@ -102,8 +98,8 @@ public class ShootingStars : Node2D
         // if the current one leaves the screen, one of the clones takes its place
         // it creates a "teleport" effect: the shooting star leaves the screen
         // from one edge to reappear at the other
-        _shootingStars[Role.LeftClone] = _CloneShootingStar(new Vector2(-_screenSize.x, 0));
-        _shootingStars[Role.RightClone] = _CloneShootingStar(new Vector2(_screenSize.x, 0));
+        _shootingStars[Role.LeftClone] = _CloneShootingStar(new Vector2(-Screen.Size.x, 0));
+        _shootingStars[Role.RightClone] = _CloneShootingStar(new Vector2(Screen.Size.x, 0));
         _leftClone.HideAll();
         _rightClone.HideAll();
         AddChild(_leftClone);
@@ -116,7 +112,7 @@ public class ShootingStars : Node2D
             return;
         }
 
-        var farForward = ShootingStar.Position.y - _screenSize.x * 0.5f;
+        var farForward = ShootingStar.Position.y - Screen.Size.x * 0.5f;
         _SetTarget(new Vector2(ShootingStar.Position.x, farForward));
         _SetCanBeIdle(true);
     }
@@ -127,7 +123,7 @@ public class ShootingStars : Node2D
             return;
         }
 
-        var farLeft = ShootingStar.Position.x - _screenSize.x * 0.25f;
+        var farLeft = ShootingStar.Position.x - Screen.Size.x * 0.25f;
         _SetTarget(new Vector2(farLeft, ShootingStar.Position.y));
         _SetDirection(Direction.Left);
         _SetCanBeIdle(false);
@@ -140,7 +136,7 @@ public class ShootingStars : Node2D
             return;
         }
 
-        var farRight = ShootingStar.Position.x + _screenSize.x * 0.25f;
+        var farRight = ShootingStar.Position.x + Screen.Size.x * 0.25f;
         _SetTarget(new Vector2(farRight, ShootingStar.Position.y));
         _SetDirection(Direction.Right);
         _SetCanBeIdle(false);
@@ -182,13 +178,13 @@ public class ShootingStars : Node2D
 
     private Edge _NearEdges()
     {
-        var screenPos = ShootingStar.GetGlobalTransformWithCanvas()[2].x;
-        var limitX = _screenSize.x * 0.25;
+        var screenPos = ShootingStar.GetGlobalTransformWithCanvas()[2].x - Screen.Position.x;
+        var limitX = Screen.Size.x * 0.25;
         if (screenPos < limitX)
         {
             return Edge.Left;
         }
-        else if (screenPos > _screenSize.x - limitX)
+        else if (screenPos > Screen.Size.x - limitX)
         {
             return Edge.Right;
         }
@@ -197,8 +193,8 @@ public class ShootingStars : Node2D
 
     private bool _OutsideEdges()
     {
-        var screenPos = ShootingStar.GetGlobalTransformWithCanvas()[2].x;
-        return screenPos + ShootingStar.Radius < 0 || screenPos - ShootingStar.Radius > _screenSize.x;
+        var screenPos = ShootingStar.GetGlobalTransformWithCanvas()[2].x - Screen.Position.x;
+        return screenPos + ShootingStar.Radius < 0 || screenPos - ShootingStar.Radius > Screen.Size.x;
     }
 
     private void _replaceCurrentWithClone(Edge exitSide)
@@ -211,8 +207,8 @@ public class ShootingStars : Node2D
             _shootingStars[Role.Current] = _rightClone;
             _shootingStars[Role.LeftClone] = currentTemp;
             _shootingStars[Role.RightClone] = leftTemp;
-            _rightClone.Position = new Vector2(_rightClone.Position.x + _screenSize.x * 3, _rightClone.Position.y);
-            _rightClone.Target = new Vector2(_rightClone.Target.x + _screenSize.x * 3, _rightClone.Target.y);
+            _rightClone.Position = new Vector2(_rightClone.Position.x + Screen.Size.x * 3, _rightClone.Position.y);
+            _rightClone.Target = new Vector2(_rightClone.Target.x + Screen.Size.x * 3, _rightClone.Target.y);
         }
         else if (exitSide == Edge.Right)
         {
@@ -220,8 +216,8 @@ public class ShootingStars : Node2D
             _shootingStars[Role.Current] = _leftClone;
             _shootingStars[Role.RightClone] = currentTemp;
             _shootingStars[Role.LeftClone] = rightTemp;
-            _leftClone.Position = new Vector2(_leftClone.Position.x - _screenSize.x * 3, _leftClone.Position.y);
-            _leftClone.Target = new Vector2(_leftClone.Target.x - _screenSize.x * 3, _leftClone.Target.y);
+            _leftClone.Position = new Vector2(_leftClone.Position.x - Screen.Size.x * 3, _leftClone.Position.y);
+            _leftClone.Target = new Vector2(_leftClone.Target.x - Screen.Size.x * 3, _leftClone.Target.y);
         }
         ShootingStar.Current = true;
         ShootingStar.SetCameraCurrent();

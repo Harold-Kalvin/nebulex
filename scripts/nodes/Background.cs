@@ -8,7 +8,8 @@ public class Background : TextureRect
     {
         if (Texture != null)
         {
-            RectSize = GetViewport().GetVisibleRect().Size;
+            RectSize = Screen.Size;
+            RectPosition = Screen.Position;
         }
     }
 }

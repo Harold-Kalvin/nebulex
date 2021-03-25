@@ -9,7 +9,7 @@ public class Game : Node {
         get => _started;
     }
 
-    public bool _started = false;
+    private bool _started = false;
 
     public void Start() {
         _started = true;

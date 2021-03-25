@@ -17,7 +17,7 @@ public class Coin : Node2D
         AddToGroup("bodies");
 
         // setting radius from screen size
-        Vector2 screenSize = GetViewport().GetVisibleRect().Size;
+        Vector2 screenSize = Screen.Size;
         _radius = (float)GD.RandRange(
             (screenSize.x * _coinMinSizeScreenX) / 2,
             (screenSize.x * _coinMaxSizeScreenX) / 2

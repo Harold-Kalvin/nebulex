@@ -12,7 +12,6 @@ public class Planets : Node2D
     }
 
     private Game _game;
-    private Vector2 _screenSize;
     private PackedScene _planetScene = GD.Load<PackedScene>("res://scenes/bodies/Planet.tscn");
     private List<Planet> _bigPlanets = new List<Planet>();
     // planet size
@@ -35,7 +34,6 @@ public class Planets : Node2D
     public override void _Ready()
     {
         _game = (Game)GetNode("/root/Game");
-        _screenSize = GetViewport().GetVisibleRect().Size;
     }
 
     public override void _Process(float delta)
@@ -53,7 +51,7 @@ public class Planets : Node2D
             // wait until the last planet has reached a certain point
             // before generating another one (for performance) 
             Planet lastPlanet = _bigPlanets[_bigPlanets.Count - 1];
-            if (lastPlanet.GetGlobalTransformWithCanvas()[2].y > -_screenSize.y / 2)
+            if (lastPlanet.GetGlobalTransformWithCanvas()[2].y > -Screen.Size.y / 2)
             {
                 _GeneratePlanets();
             }
@@ -105,29 +103,29 @@ public class Planets : Node2D
     private float _GenerateBigPlanetRadius()
     {
         return (float)GD.RandRange(
-            (_screenSize.x * _bigPlanetMinSizeScreenX) / 2,
-            (_screenSize.x * _bigPlanetMaxSizeScreenX) / 2
+            (Screen.Size.x * _bigPlanetMinSizeScreenX) / 2,
+            (Screen.Size.x * _bigPlanetMaxSizeScreenX) / 2
         );
     }
 
     private Vector2 _GenerateFirstBigPlanetPosition(float planetRadius)
     {
         // random horizontal position
-        var x = (float)GD.RandRange((-_screenSize.x / 2) + planetRadius, (_screenSize.x / 2) - planetRadius);
+        var x = (float)GD.RandRange((-Screen.Size.x / 2) + planetRadius, (Screen.Size.x / 2) - planetRadius);
         // screen height vertical position
-        var y = -(GetCanvasTransform().Xform(new Vector2(0, _screenSize.y))).y;
+        var y = -(GetCanvasTransform().Xform(new Vector2(0, Screen.Size.y))).y;
         return new Vector2(x, y);
     }
 
     private Vector2 _GenerateBigPlanetPosition(float planetRadius)
     {
         // random horizontal position
-        var x = (float)GD.RandRange((-_screenSize.x / 2) + planetRadius, (_screenSize.x / 2) - planetRadius);
+        var x = (float)GD.RandRange((-Screen.Size.x / 2) + planetRadius, (Screen.Size.x / 2) - planetRadius);
         // vertical position from last planet
         Planet lastPlanet = _bigPlanets[_bigPlanets.Count - 1];
         float lastPlanetVerticalLimit = (lastPlanet.Position.y - lastPlanet.Radius);
-        float minVerticalDistance = _screenSize.x * _bigPlanetMinVerticalDistanceScreenX;
-        float maxVerticalDistance = _screenSize.x * _bigPlanetMaxVerticalDistanceScreenX;
+        float minVerticalDistance = Screen.Size.x * _bigPlanetMinVerticalDistanceScreenX;
+        float maxVerticalDistance = Screen.Size.x * _bigPlanetMaxVerticalDistanceScreenX;
         float verticalDistance = (float)GD.RandRange(minVerticalDistance, maxVerticalDistance);
         var y = lastPlanetVerticalLimit - verticalDistance;
         return new Vector2(x, y);
@@ -147,8 +145,8 @@ public class Planets : Node2D
     private float _GenerateSmallPlanetRadius()
     {
         return (float)GD.RandRange(
-            (_screenSize.x * _smallPlanetMinSizeScreenX) / 2,
-            (_screenSize.x * _smallPlanetMaxSizeScreenX) / 2
+            (Screen.Size.x * _smallPlanetMinSizeScreenX) / 2,
+            (Screen.Size.x * _smallPlanetMaxSizeScreenX) / 2
         );
     }
 
@@ -156,7 +154,7 @@ public class Planets : Node2D
     {
         Vector2 origin = associatedBigPlanet.Position;
         Vector2 position = new Vector2();
-        Vector2 screenPosition = new Vector2();
+        float screenPositionX;
 
         // from the origin, generate the position with a random direction and distance
         do {
@@ -169,12 +167,12 @@ public class Planets : Node2D
                 associatedBigPlanet.Radius * _smallPlanetMaxDistanceBigPlanetRadius
             );
             position = (direction * distance) + origin;
-            screenPosition = GetCanvasTransform().Xform(position);
+            screenPositionX = GetCanvasTransform().Xform(position).x - Screen.Position.x;
             
             // if generated position is out of screen, try again
         } while (
-            (screenPosition.x - smallPlanetRadius < 0) ||
-            (screenPosition.x + smallPlanetRadius > _screenSize.x)
+            (screenPositionX - smallPlanetRadius < 0) ||
+            (screenPositionX + smallPlanetRadius > Screen.Size.x)
         );
 
         return position;
