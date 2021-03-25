@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/shapes/square.png" type="Texture" id=1]
+[ext_resource path="res://scripts/nodes/BlackStripes.cs" type="Script" id=2]
+
+[node name="BlackStripes" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="LeftStripe" type="TextureRect" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RightStripe" type="TextureRect" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
