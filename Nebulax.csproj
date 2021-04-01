@@ -64,6 +64,8 @@
     <Compile Include="scripts\nodes\BlackStripes.cs" />
     <Compile Include="scripts\nodes\bodies\shootingstars\BaseShootingStarWithTrail.cs" />
     <Compile Include="scripts\nodes\bodies\shootingstars\Camera.cs" />
+    <Compile Include="scripts\nodes\GUI\MainSceneGUI.cs" />
+    <Compile Include="scripts\nodes\GUI\PlayButton.cs" />
     <Compile Include="scripts\nodes\inputs\ClickDetector.cs" />
     <Compile Include="scripts\nodes\bodies\coins\Coins.cs" />
     <Compile Include="scripts\nodes\GameScene.cs" />

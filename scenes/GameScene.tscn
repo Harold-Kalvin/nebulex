@@ -29,6 +29,8 @@ layer = -1
 
 [node name="Background" parent="CanvasLayer" instance=ExtResource( 8 )]
 material = SubResource( 2 )
+margin_right = 0.0
+margin_bottom = 0.0
 texture = ExtResource( 4 )
 
 [node name="Stars" parent="CanvasLayer" instance=ExtResource( 6 )]

@@ -11,7 +11,7 @@ public class GameScene : Node2D
     private SwipeDetector _swipeDetector;
     private Stars _stars;
 
-    public override void _Ready()
+    public async override void _Ready()
     {
         GD.Randomize();
 
@@ -29,8 +29,8 @@ public class GameScene : Node2D
         _clickDetector.Connect("Clicked", this, nameof(_OnClick));
         _swipeDetector.Connect("Swiped", this, nameof(_OnSwipe));
 
-        // start !
-        InitGame();
+        await _game.Wait();  // wait on start to get full animations
+        _shootingStars.Init();
     }
 
     public override void _Process(float delta)
@@ -51,11 +51,6 @@ public class GameScene : Node2D
                 }
             }
         }
-    }
-
-    public async void InitGame() {
-        await _shootingStars.Init();
-        _game.Start();
     }
 
     private void _OnClick()

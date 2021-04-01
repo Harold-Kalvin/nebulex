@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class Game : Node {
     [Signal]
@@ -10,6 +11,10 @@ public class Game : Node {
     }
 
     private bool _started = false;
+
+    public async Task Wait() {
+        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+    }
 
     public void Start() {
         _started = true;
