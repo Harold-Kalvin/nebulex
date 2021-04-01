@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://gradients/background.tres" type="Gradient" id=1]
 [ext_resource path="res://scripts/nodes/bodies/coins/Coins.cs" type="Script" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://scenes/particles/Stars.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/inputs/SwipeDetector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/Background.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/inputs/ClickDetector.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scripts/nodes/GameScene.cs" type="Script" id=10]
 [ext_resource path="res://scripts/nodes/bodies/shootingstars/ShootingStars.cs" type="Script" id=11]
 
@@ -34,8 +33,6 @@ margin_bottom = 0.0
 texture = ExtResource( 4 )
 
 [node name="Stars" parent="CanvasLayer" instance=ExtResource( 6 )]
-
-[node name="ClickDetector" parent="." instance=ExtResource( 9 )]
 
 [node name="SwipeDetector" parent="." instance=ExtResource( 7 )]
 

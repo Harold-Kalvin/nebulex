@@ -106,17 +106,6 @@ public class ShootingStars : Node2D
         AddChild(_rightClone);
     }
 
-    public void Sprint()
-    {
-        if (_destroyed || !_initialized) {
-            return;
-        }
-
-        var farForward = ShootingStar.Position.y - Screen.Size.x * 0.5f;
-        _SetTarget(new Vector2(ShootingStar.Position.x, farForward));
-        _SetCanBeIdle(true);
-    }
-
     public void MoveLeft()
     {
         if (_destroyed || !_initialized) {

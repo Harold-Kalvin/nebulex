@@ -7,7 +7,6 @@ public class GameScene : Node2D
     private ShootingStars _shootingStars;
     private Planets _planets;
     private Coins _coins;
-    private ClickDetector _clickDetector;
     private SwipeDetector _swipeDetector;
     private Stars _stars;
 
@@ -20,13 +19,11 @@ public class GameScene : Node2D
         _shootingStars = (ShootingStars)GetNode("ShootingStars");
         _planets = (Planets)GetNode("Planets");
         _coins = (Coins)GetNode("Coins");
-        _clickDetector = (ClickDetector)GetNode("ClickDetector");
         _swipeDetector = (SwipeDetector)GetNode("SwipeDetector");
         _stars = (Stars)GetNode("CanvasLayer").GetNode("Stars");
 
         // connect signals
         _game.Connect("Over", this, nameof(_OnGameOver));
-        _clickDetector.Connect("Clicked", this, nameof(_OnClick));
         _swipeDetector.Connect("Swiped", this, nameof(_OnSwipe));
 
         await _game.Wait();  // wait on start to get full animations
@@ -51,15 +48,6 @@ public class GameScene : Node2D
                 }
             }
         }
-    }
-
-    private void _OnClick()
-    {
-        if (!_game.Started) {
-            return;
-        }
-
-        _shootingStars.Sprint();
     }
 
     private void _OnSwipe(SwipeDirection direction)
