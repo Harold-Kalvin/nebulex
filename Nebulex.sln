@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nebulax", "Nebulax.csproj", "{19D1E7F0-ED80-4051-814A-AC3C6EAA42F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nebulex", "Nebulex.csproj", "{19D1E7F0-ED80-4051-814A-AC3C6EAA42F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

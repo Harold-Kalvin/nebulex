@@ -1,3 +1,3 @@
-# Nebulax
+# Nebulex
 
 Explore the nebula
