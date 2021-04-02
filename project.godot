@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 
 Screen="*res://scripts/autoloaded/Screen.cs"
 Game="*res://scripts/autoloaded/Game.cs"
+ParticlesLoader="*res://scripts/autoloaded/ParticlesLoader.cs"
 
 [display]
 

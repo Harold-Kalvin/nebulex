@@ -87,7 +87,7 @@ public class MainSceneGUI : Control
         await FadeNode(_fadeBottomHalfTween, _bottomHalf, Fade.In);
     }
 
-    private async Task _FadeOutGUI() {
+    private async void _FadeOutGUI() {
         await FadeNode(_fadeBottomHalfTween, _bottomHalf, Fade.Out);
         await FadeNode(_fadeTitleTween, _titleContainer, Fade.Out);
         await FadeNode(_fadeLogoTween, _logoContainer, Fade.Out);

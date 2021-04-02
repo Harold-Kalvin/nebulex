@@ -27,7 +27,7 @@ public class GameScene : Node2D
         _swipeDetector.Connect("Swiped", this, nameof(_OnSwipe));
 
         await _game.Wait();  // wait on start to get full animations
-        _shootingStars.Init();
+        await _shootingStars.Init();
     }
 
     public override void _Process(float delta)
